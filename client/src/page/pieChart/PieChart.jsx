@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Box } from "@mui/material";
-import Header from "../../components/Header";
-import Pie from "./pie";
+import { Box, Typography } from "@mui/material";
+import RadarChart from "./RadarChart"; // Importez le composant RadarChart
 import axios from "axios";
 
 const PieChart = () => {
@@ -27,8 +26,10 @@ const PieChart = () => {
 
   return (
     <Box>
-      <Header title="Pie Chart" subTitle="Simple Pie Chart" />
-      <Pie data={data} />
+      <Typography variant="h4" gutterBottom>
+        Radar Chart
+      </Typography>
+      <RadarChart data={data} />
     </Box>
   );
 };

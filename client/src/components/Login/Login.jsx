@@ -1,12 +1,15 @@
 import React from "react";
-import { Button, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
-import "../../css/Registre.css";
+import animationData from "../Assets/animation.json";
+import animation from "../Assets/Animation - 1714943473279.json";
+import Lottie from 'react-lottie';
+import "../../css/login.css";
+import { Container, Row, Col, Card, CardBody } from "reactstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 
 const Login = () => {
   const { register, handleSubmit, formState } = useForm({
@@ -16,7 +19,22 @@ const Login = () => {
     },
     mode: "onTouched",
   });
-
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
+  const defaultOptions2 = {
+    loop: true,
+    autoplay: true,
+    animationData: animation,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
   const { errors } = formState;
   const navigate = useNavigate();
 
@@ -31,8 +49,6 @@ const Login = () => {
           timer: 1000,
           showConfirmButton: false,
         });
-
-        localStorage.removeItem("selectedCategoryId");
 
         localStorage.setItem("token", response.data.token);
 
@@ -77,61 +93,80 @@ const Login = () => {
   };
 
   return (
-    <div className="wap">
-      <div className="wrapper">
-        <h1 className="title">Connexion</h1>
+    <div className="registration-container">
+      <Container className="content-center">
+        <Row>
+          <Col md={12} className="offset-md-1">
+            <Card className="card">
+              <CardBody className="card-body">
+                <h5 className="mb-4 text-center">Lancer Votre carriere avec Nous 🚀</h5>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form.Group controlId="email" className="input-box">
+                    <Form.Label>Email</Form.Label>
+                    <FormControl
+                      type="email"
+                      placeholder="Email"
+                      className="input"
+                      {...register("email", {
+                        required: true,
+                        pattern: {
+                          value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                          message: "Invalid email address",
+                        },
+                      })}
+                      style={{
+                        borderColor: errors.email ? "red" : "",
+                      }}
+                    />
+                    {errors?.email && (
+                      <span style={{ color: "red" }}>{errors.email?.message}</span>
+                    )}
+                  </Form.Group>
 
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group controlId="email" className="input-box">
-            <Form.Label>Email</Form.Label>
-            <FormControl
-              type="email"
-              placeholder="Email"
-              className="input"
-              {...register("email", {
-                required: true,
-                message: { required: "Email is required" },
-                pattern: {
-                  value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Invalid email address",
-                },
-              })}
-              style={{
-                borderColor: errors.email ? "red" : "",
-              }}
-            />
-            {errors?.email && (
-              <span style={{ color: "red" }}>{errors.email?.message}</span>
-            )}
-          </Form.Group>
+                  <Form.Group controlId="password" className="input-box">
+                    <Form.Label>Mot de passe</Form.Label>
+                    <FormControl
+                      type="password"
+                      placeholder="Mot de passe"
+                      className="input"
+                      {...register("password", { required: true })}
+                      style={{
+                        borderColor: errors.password ? "red" : "",
+                      }}
+                    />
+                    {errors?.password && (
+                      <span style={{ color: "red" }}>{errors.password?.message}</span>
+                    )}
+                  </Form.Group>
 
-          <Form.Group controlId="password" className="input-box">
-            <Form.Label>Mot de passe</Form.Label>
-            <FormControl
-              type="password"
-              placeholder="Mot de passe"
-              className="input"
-              {...register("password", { required: true })}
-              style={{
-                borderColor: errors.password ? "red" : "",
-              }}
-            />
-            {errors?.password && (
-              <span style={{ color: "red" }}>{errors.password?.message}</span>
-            )}
-          </Form.Group>
-
-          <Button type="submit" variant="primary" className="btn">
-            Connexion
-          </Button>
-        </Form>
-
-        <div className="register-link">
-          Vous n'avez pas de compte ?{" "}
-          <Link to="/signup" className="Link">
-            Inscrivez-vous
-          </Link>
-        </div>
+                  <Button type="submit" color="primary" block>
+                    Connexion
+                  </Button>
+                </Form>
+                <div className="mt-3 text-center">
+                  Vous n'avez pas de compte ?{" "}
+                  <Link to={"/signup"} style={{ color: "blue" }}>
+                    Inscrivez-vous ici
+                  </Link>
+                </div>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+      <div className="background-animation-left">
+        <Lottie
+          options={defaultOptions}
+          height={420}
+          width={420}
+        />
+      </div>
+      <div className="background-animation-right">
+        <Lottie
+          options={defaultOptions2}
+          height={550}
+          width={500}
+        />
       </div>
     </div>
   );
