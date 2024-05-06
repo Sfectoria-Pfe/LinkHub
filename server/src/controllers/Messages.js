@@ -26,7 +26,7 @@ exports.sendMessage = async (req, res) => {
     }
 
     // Socket.io functionality here
-
+    //just testing
     await conversation.save();
     await newMessage.save();
     res.status(200).send(newMessage);
