@@ -47,6 +47,7 @@ const fetchUser = require("../middlewares/fetchUser");
  */
 
 const quizRouter = express.Router();
+
 // ROUTE 1: Get All the QUIZ using : GET "/api/quiz/getuser" .Login required
 quizRouter.get("/fetchallquiz", fetchUser, async (req, res) => {
   try {
