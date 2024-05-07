@@ -8,6 +8,77 @@ const moment = require("moment");
 const Event = require("../models/events");
 const User = require("../models/userModule");
 
+
+// 1) Get all events
+/**
+ * @swagger
+ * /api/calander/getEvents:
+ *   get:
+ *     tags: [Calendar]
+ *     summary: Get all events
+ *     description: Retrieve all events
+ *     parameters:
+ *       - in: query
+ *         name: start
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *         required: true
+ *         description: The start date
+ *       - in: query
+ *         name: end
+ *         schema:
+ *           type: string
+ *           format: date-time
+ *         required: true
+ *         description: The end date
+ *     responses:
+ *       '200':
+ *         description: Successfully retrieved all events
+ *       '500':
+ *         description: Internal server error
+ */
+
+
+// 2) Create an event
+/**
+ * @swagger
+ * /api/calander/createEvent:
+ *   post:
+ *     tags: [Calendar]
+ *     summary: Create an event
+ *     description: Create an event
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               start:
+ *                 type: string
+ *                 format: date-time
+ *               end:
+ *                 type: string
+ *                 format: date-time
+ *               googleMeetURL:
+ *                 type: string
+ *             required:
+ *               - title
+ *               - start
+ *               - end
+ *               - googleMeetURL
+ *     responses:
+ *       '201':
+ *         description: Event created successfully
+ *       '400':
+ *         description: Missing required data
+ *       '500':
+ *         description: Internal server error
+ */
+
 routerCalendar.get("/getEvents", async (req, res) => {
   const events = await Event.find({
     start: { $gte: moment(req.query.start).toDate() },

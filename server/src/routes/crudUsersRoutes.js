@@ -30,6 +30,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const crudUserRoutes = express.Router();
 
+
+
 crudUserRoutes.post("/create", createUser);
 crudUserRoutes.get("/all", getAllUsers);
 crudUserRoutes.get("/getUserforsidebare", protectRoutes, getUserForSideBare);
