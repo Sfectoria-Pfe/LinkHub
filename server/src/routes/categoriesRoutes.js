@@ -17,7 +17,6 @@ const authentificateToken = require("../middlewares/fetchUser.js");
 
 categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
 
-
 // ------------------- Swagger Documentation ------------------------
 // 1)get all category en utulisant swagger
 /**
@@ -32,9 +31,7 @@ categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
  *       description: A list of categories
  */
 
-
 // 2)get category by id en utulisant swagger
-
 
 /**
  * @swagger
@@ -55,7 +52,7 @@ categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
  *         description: A category by id
  */
 
- // 3)get all courses in category en utulisant swagger
+// 3)get all courses in category en utulisant swagger
 /**
  * @swagger
  * /api/categories/getAllCoursesInCategory/{id}:
@@ -75,7 +72,7 @@ categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
  *         description: A list of courses in the category
  */
 
-  // 4)update category by id en utulisant swagger
+// 4)update category by id en utulisant swagger
 
 /**
  * @swagger
@@ -109,30 +106,28 @@ categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
  *         description: A category updated
  */
 
-
-  // 5)delete category by id en utulisant swagger
+// 5)delete category by id en utulisant swagger
 
 /**
  *@swagger
-  * /api/categories/delete/{id}:
-  *  delete:
-  *   tags: [Categories]
-  *  summary: Delete category by id
-  *  description: Delete category by id
-  *  parameters:
-  *   - in: path
-  *     name: id
-  *  schema:
-  *   type: string
-  *   required: true
-  *   description: Category ID
-  *  responses:
-  *    '200':
-  *     description: A category deleted
-  */
+ * /api/categories/delete/{id}:
+ *  delete:
+ *   tags: [Categories]
+ *  summary: Delete category by id
+ *  description: Delete category by id
+ *  parameters:
+ *   - in: path
+ *     name: id
+ *  schema:
+ *   type: string
+ *   required: true
+ *   description: Category ID
+ *  responses:
+ *    '200':
+ *     description: A category deleted
+ */
 
-  // 6)get image of a specific category en utulisant swagger
-   
+// 6)get image of a specific category en utulisant swagger
 
 /**
  * @swagger
@@ -147,18 +142,18 @@ categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
  *         schema:
  *           type: string
  *         required: true
- *         description: Category ID    
+ *         description: Category ID
  *     responses:
  *       '200':
  *         description: Successful response
  */
 
-  // 7)join category en utulisant swagger
+// 7)join category en utulisant swagger
 /**
  * @swagger
  * /api/categories/join/{categoryId}:
  *   post:
- *     tags: 
+ *     tags:
  *       - Categories
  *     summary: Join a category
  *     description: Join a specific category by its ID
@@ -178,9 +173,7 @@ categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
  *         description: Unauthorized - Missing or invalid authentication token
  */
 
-
-
-  // 8)get joined categories en utulisant swagger 
+// 8)get joined categories en utulisant swagger
 /**
  * @swagger
  * components:
@@ -202,10 +195,6 @@ categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
  *       '401':
  *         description: Unauthorized - Missing or invalid authentication token
  */
-
-
-
-
 
 categoryRouter.get("/all", getAllCategories);
 categoryRouter.get("/getCategoryById/:id", getCategoryById);
