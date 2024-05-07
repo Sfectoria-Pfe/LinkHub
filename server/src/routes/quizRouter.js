@@ -4,6 +4,48 @@ const { body, validationResult } = require("express-validator");
 const Quiz = require("../models/Quiz");
 const fetchUser = require("../middlewares/fetchUser");
 
+/**
+ * @swagger
+ *
+ * /api/quiz/fetchallquiz:
+ *   get:
+ *     tags: ["quizs"]
+ *     summary: Fetch all quizzes
+ *     description: Fetch all quizzes. Login required. This endpoint uses the fetchUser middleware to authenticate the user and attach user information to the request object.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   question:
+ *                     type: string
+ *                   option1:
+ *                     type: string
+ *                   option2:
+ *                     type: string
+ *                   option3:
+ *                     type: string
+ *                   option4:
+ *                     type: string
+ *                   answer:
+ *                     type: string
+ *                   title:
+ *                     type: string
+ *                   mcq:
+ *                     type: string
+ *                   code:
+ *                     type: string
+ *       '500':
+ *         description: Internal Server Error
+ */
+
 const quizRouter = express.Router();
 // ROUTE 1: Get All the QUIZ using : GET "/api/quiz/getuser" .Login required
 quizRouter.get("/fetchallquiz", fetchUser, async (req, res) => {
@@ -161,6 +203,68 @@ quizRouter.post(
     }
   }
 );
+
+/**
+ * @swagger
+ * /api/quiz/updatequiz/{id}:
+ *   put:
+ *     tags: ["quizs"]
+ *     summary: Update an existing quiz
+ *     description: Update an existing quiz. Login required. This endpoint uses the fetchUser middleware to authenticate the user and attach user information to the request object.
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the quiz to be updated
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               question:
+ *                 type: string
+ *               option1:
+ *                 type: string
+ *               option2:
+ *                 type: string
+ *               option3:
+ *                 type: string
+ *               option4:
+ *                 type: string
+ *               answer:
+ *                 type: string
+ *               title:
+ *                 type: string
+ *               mcq:
+ *                 type: string
+ *               code:
+ *                 type: string
+ *             required:
+ *               - question
+ *               - option1
+ *               - option2
+ *               - option3
+ *               - option4
+ *               - answer
+ *               - title
+ *               - mcq
+ *               - code
+ *     responses:
+ *       '200':
+ *         description: Quiz updated successfully
+ *       '400':
+ *         description: Bad request
+ *       '401':
+ *         description: Unauthorized
+ *       '500':
+ *         description: Internal server error
+ */
 
 // ROUTE 4: Update an existing quiz using : PUT "/api/quiz/updatequiz/:id" .Login required
 quizRouter.put("/updatequiz/:id", fetchUser, async (req, res) => {

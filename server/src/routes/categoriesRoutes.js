@@ -16,17 +16,6 @@ const categoryRouter = express.Router();
 const authentificateToken = require("../middlewares/fetchUser.js");
 categoryRouter.post("/create", upload.single("imageUrl"), createCategory);
 
-/**
- * @swagger
- * /api/categories/all:
- *  get:
- *   tags: [Categories]
- *   summary: Get all categories
- *   description: Get all categories
- *   responses:
- *     200:
- *       description: A list of categories
- */
 categoryRouter.get("/all", getAllCategories);
 categoryRouter.get("/getCategoryById/:id", getCategoryById);
 categoryRouter.get("/getAllCoursesInCategory/:id", getAllCoursesInCategory);
