@@ -4,9 +4,10 @@ import TableUsers from "../../components/AdminDashboard/Users/TableUsers";
 import Row2 from "./Row2";
 import Row3 from "./Row3";
 import Button from "@mui/material/Button";
-import { DownloadOutlined } from "@mui/icons-material";
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import Header from "../../components/Header";
+import ScrollableCategories from "../ScrollableCategories/ScrollableCategories";
+// import UsersCards from "../../components/AdminDashboard/profileCards/UsersCards";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -42,6 +43,11 @@ const Dashboard = () => {
         {" "}
         {/* Add margin bottom to the component */}
         <Row3 />
+      </Box>
+      <Box sx={{ mb: theme.spacing(3) }}>
+        {" "}
+        {/* Add margin bottom to the component */}
+        <ScrollableCategories />
       </Box>
     </div>
   );
