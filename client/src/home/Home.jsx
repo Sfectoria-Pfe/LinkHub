@@ -3,7 +3,6 @@ import PopularCourses from "./PopularCourses";
 import Proud from "./Proud";
 import Rate from "./Rate";
 
-
 function Home() {
   return (
     <div>
