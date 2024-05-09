@@ -44,6 +44,7 @@ import UsersCards from "../components/AdminDashboard/profileCards/UsersCards";
 import TableUsers from "../components/AdminDashboard/Users/TableUsers";
 import BarChartPage from "../page/barChart/BarChartPage ";
 import PieChartComponent from "../page/pieChart/PieChartComponent";
+import DashboardFormatteur from "../components/TeacherDashboard/Pages/dashboard/DashboardFormatteur";
 
 //
 export const router = createBrowserRouter([
@@ -90,8 +91,8 @@ export const router = createBrowserRouter([
         element: <Courses />,
       },
       {
-        path: "/notfound",
-        element: <NotFound />,
+        path: "/gereProfile/admin",
+        element: <ProfilStudent />,
       },
       {
         path: "/invoices",
@@ -168,7 +169,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard/teacher",
-        element: <DashboardStudent />,
+        element: <DashboardFormatteur />,
       },
 
       {

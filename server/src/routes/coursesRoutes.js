@@ -35,7 +35,6 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 // 1) Create a new course
 
-
 /**
  * @swagger
  * /api/courses/create:
@@ -78,7 +77,6 @@ const upload = multer({ storage: storage });
  *         description: Internal server error
  */
 
-
 // 2) Get all courses
 
 /**
@@ -92,7 +90,6 @@ const upload = multer({ storage: storage });
  *       '200':
  *         description: Successfully retrieved all courses
  */
-
 
 // 3) Get a course by ID
 
@@ -161,7 +158,6 @@ const upload = multer({ storage: storage });
  *       '500':
  *         description: Internal server error
  */
-
 
 // 5) Delete a course by ID
 
@@ -244,7 +240,6 @@ const upload = multer({ storage: storage });
  *         description: Internal server error
  */
 
-
 // 8) Get files for a course
 
 /**
@@ -291,7 +286,6 @@ const upload = multer({ storage: storage });
  *         description: Successfully retrieved the file
  */
 
-
 // 10) Add a review to a course
 /**
  * @swagger
@@ -330,8 +324,6 @@ const upload = multer({ storage: storage });
  *       '500':
  *         description: Internal server error
  */
-
-
 
 // 11) Get reviews for a course
 /**
@@ -372,9 +364,6 @@ const upload = multer({ storage: storage });
  *       '500':
  *         description: Internal server error
  */
-
-
-
 
 courseRouter.post("/create", createCourse);
 courseRouter.get("/all", getAllCourses);

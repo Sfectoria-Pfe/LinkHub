@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -16,11 +17,12 @@ import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import ReviewsIcon from "@mui/icons-material/Reviews";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
+import axios from "axios";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -44,9 +46,8 @@ const closedMixin = (theme) => ({
   },
 });
 
-const Drawer = styled(MuiDrawer, {
+const StyledDrawer = styled("nav", {
   shouldForwardProp: (prop) => prop !== "open",
-  // @ts-ignore
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -82,7 +83,11 @@ const Array1 = [
 ];
 
 const Array2 = [
-  { text: "Profile Form", icon: <PersonOutlinedIcon />, path: "/form" },
+  {
+    text: "Modifier profile",
+    icon: <ManageAccountsOutlinedIcon />,
+    path: "/gereProfile/admin",
+  },
   { text: "Calendar", icon: <CalendarTodayOutlinedIcon />, path: "/calendar" },
 ];
 
@@ -97,13 +102,37 @@ const Array3 = [
   { text: "Geography Chart", icon: <MapOutlinedIcon />, path: "/geography" },
 ];
 
-const SideBar = ({ open, handleDrawerClose }) => {
-  let location = useLocation();
+const Sidebar = ({ open, handleDrawerClose }) => {
+  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const theme = useTheme();
 
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:3000/api/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const userData = response.data.user;
+      setAvatar(userData.avatar || "");
+      setName(`${userData.firstName} ${userData.lastName}`);
+      setRole(userData.role || "");
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   return (
-    <Drawer variant="permanent" open={open}>
+    <StyledDrawer variant="permanent" open={open}>
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (
@@ -123,14 +152,14 @@ const SideBar = ({ open, handleDrawerClose }) => {
           border: "2px solid grey",
           transition: "0.25s",
         }}
-        alt="Remy Sharp"
-        src="https://media.allure.com/photos/5a26c1d8753d0c2eea9df033/3:4/w_1262,h_1683,c_limit/mostbeautiful.jpg"
+        alt="Avatar"
+        src={avatar}
       />
       <Typography
         align="center"
         sx={{ fontSize: open ? 17 : 0, transition: "0.25s" }}
       >
-        Layla Ali
+        {name}
       </Typography>
       <Typography
         align="center"
@@ -140,19 +169,15 @@ const SideBar = ({ open, handleDrawerClose }) => {
           color: theme.palette.info.main,
         }}
       >
-        Admin
+        {role}
       </Typography>
-
       <Divider />
-
       <List>
         {Array1.map((item) => (
           <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
             <Tooltip title={open ? null : item.text} placement="left">
               <ListItemButton
-                onClick={() => {
-                  navigate(item.path);
-                }}
+                onClick={() => navigate(item.path)}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -183,17 +208,13 @@ const SideBar = ({ open, handleDrawerClose }) => {
           </ListItem>
         ))}
       </List>
-
       <Divider />
-
       <List>
         {Array2.map((item) => (
           <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
             <Tooltip title={open ? null : item.text} placement="left">
               <ListItemButton
-                onClick={() => {
-                  navigate(item.path);
-                }}
+                onClick={() => navigate(item.path)}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -224,17 +245,13 @@ const SideBar = ({ open, handleDrawerClose }) => {
           </ListItem>
         ))}
       </List>
-
       <Divider />
-
       <List>
         {Array3.map((item) => (
           <ListItem key={item.path} disablePadding sx={{ display: "block" }}>
             <Tooltip title={open ? null : item.text} placement="left">
               <ListItemButton
-                onClick={() => {
-                  navigate(item.path);
-                }}
+                onClick={() => navigate(item.path)}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? "initial" : "center",
@@ -265,8 +282,8 @@ const SideBar = ({ open, handleDrawerClose }) => {
           </ListItem>
         ))}
       </List>
-    </Drawer>
+    </StyledDrawer>
   );
 };
 
-export default SideBar;
+export default Sidebar;
