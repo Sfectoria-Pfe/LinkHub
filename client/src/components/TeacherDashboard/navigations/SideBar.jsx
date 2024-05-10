@@ -13,7 +13,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { Avatar, styled, useTheme, Typography, Tooltip } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
@@ -23,6 +22,7 @@ import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlin
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import QuizIcon from "@mui/icons-material/Quiz";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -92,7 +92,6 @@ const Array1 = [
 ];
 
 const Array2 = [
-  { text: "Profile Form", icon: <PersonOutlinedIcon />, path: "/form/teacher" },
   {
     text: "Calendar",
     icon: <CalendarTodayOutlinedIcon />,
@@ -155,6 +154,24 @@ const Sidebar = ({ open, handleDrawerClose }) => {
       setRole(userData.role || "");
     } catch (error) {
       console.error("Error fetching user data:", error);
+    }
+  };
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:3000/api/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("token");
+      navigate("/login"); // navigate to login or wherever you want after logout
+    } catch (error) {
+      console.error("Error logging out:", error);
     }
   };
   return (
@@ -318,6 +335,12 @@ const Sidebar = ({ open, handleDrawerClose }) => {
             </Tooltip>
           </ListItem>
         ))}
+        <ListItem button onClick={logout} style={{ marginTop: "33px" }}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
       </List>
     </StyledDrawer>
   );

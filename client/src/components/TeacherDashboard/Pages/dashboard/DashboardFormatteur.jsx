@@ -1,5 +1,6 @@
 import React from "react";
 import StudentsInTeacher from "../StudentsInTeacher/StudentsInTeacher";
+import ScrollableCategories from "../../../../page/ScrollableCategories/ScrollableCategories";
 
 import { Box, Stack, Typography, useTheme } from "@mui/material";
 import Header from "../../navigations/Header";
@@ -23,6 +24,10 @@ const DashboardFormatteur = () => {
       <Box sx={{ mb: theme.spacing(3) }}>
         <Typography variant="h6"> Étudiants</Typography>
         <StudentsInTeacher />
+      </Box>
+      <Box>
+        <Typography variant="h6"> Catégories</Typography>
+        <ScrollableCategories />
       </Box>
     </div>
   );

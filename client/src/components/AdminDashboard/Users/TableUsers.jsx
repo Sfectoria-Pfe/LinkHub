@@ -1,202 +1,91 @@
-import React, { useContext, useState } from "react";
-import quizContext from "../../TeacherDashboard/context/quizContext";
-import {
-  Button,
-  TextField,
-  Typography,
-  Container,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Paper,
-} from "@mui/material";
+import * as React from "react";
+import Avatar from "@mui/material/Avatar";
+import Chip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
+import Table from "@mui/material/Table";
+import TableRow from "@mui/material/TableRow";
+import TableHead from "@mui/material/TableHead";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import Typography from "@mui/material/Typography";
+import TableContainer from "@mui/material/TableContainer";
+import Card from "@mui/material/Card";
+import axios from "axios";
 
-const AddQuiz = (props) => {
-  const context = useContext(quizContext);
-  const { addQuiz, editCode } = context;
+function TableUsers() {
+  const [users, setUsers] = React.useState([]);
 
-  const [select, setSelect] = useState("yes");
-  const [quiz, setQuiz] = useState({
-    id: "",
-    question: "",
-    option1: "",
-    option2: "",
-    option3: "",
-    option4: "",
-    answer: "",
-    title: "",
-    mcq: select,
-    code: "",
-  });
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    addQuiz(
-      quiz.question,
-      quiz.option1,
-      quiz.option2,
-      quiz.option3,
-      quiz.option4,
-      quiz.answer,
-      quiz.title,
-      select,
-      code
-    );
-    setQuiz({
-      question: "",
-      option1: "",
-      option2: "",
-      option3: "",
-      option4: "",
-      answer: "",
-      title: "",
-      mcq: select,
-    });
-    props.showAlert("Added Successfully", "success");
-  };
-
-  var code;
-  const [gcode, setGcode] = useState("");
-
-  const test = () => {
-    const publish = () => {
-      var len = 6;
-      var arr = "1234567890qwertyuiopasdfghjklzxcvbnm";
-      var ans = "";
-      for (var i = len; i > 0; i--) {
-        ans += arr[Math.floor(Math.random() * arr.length)];
+  React.useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/users/all");
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Failed to fetch users:", error);
       }
-      code = ans;
-      setGcode(code);
     };
-    publish();
-    const editTESTCode = () => {
-      editCode(code);
-      props.showAlert("Quiz Published Successfully", "success");
-    };
-    editTESTCode();
-  };
 
-  const onChange = (e) => {
-    setQuiz({ ...quiz, [e.target.name]: e.target.value });
-  };
+    fetchUsers();
+  }, []);
 
   return (
-    <Container maxWidth="md" sx={{ marginTop: 3 }}>
-      <Paper sx={{ p: 4 }}>
-        <Typography variant="h4" mb={3}>
-          Add your Quiz
-        </Typography>
-        <Button
-          onClick={test}
-          variant="contained"
-          color="primary"
-          sx={{ mb: 3 }}
-        >
-          Publish
-        </Button>
-        <TextField
-          fullWidth
-          label="Code"
-          variant="outlined"
-          name="code"
-          value={gcode}
-          onChange={onChange}
-          sx={{ mb: 3 }}
-        />
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Question"
-              variant="outlined"
-              name="question"
-              value={quiz.question}
-              onChange={onChange}
-              required
-              minLength={5}
-              placeholder="Write your Question here"
-              sx={{ mb: 2 }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Title"
-              variant="outlined"
-              name="title"
-              value={quiz.title}
-              onChange={onChange}
-              required
-              minLength={5}
-              placeholder="Enter the title"
-              sx={{ mb: 2 }}
-            />
-          </Grid>
-          {[1, 2, 3, 4].map((optionNumber) => (
-            <Grid item xs={6} key={optionNumber}>
-              <TextField
-                fullWidth
-                label={`Option ${optionNumber}`}
-                variant="outlined"
-                name={`option${optionNumber}`}
-                value={quiz[`option${optionNumber}`]}
-                onChange={onChange}
-                required
-                minLength={5}
-                placeholder={`Enter the option ${optionNumber}`}
-                sx={{ mb: 2 }}
-              />
-            </Grid>
-          ))}
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Answer of the above question"
-              variant="outlined"
-              name="answer"
-              value={quiz.answer}
-              onChange={onChange}
-              required
-              minLength={5}
-              placeholder="Enter the answer"
-              sx={{ mb: 2 }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel>Is this question MCQ:</InputLabel>
-              <Select
-                value={select}
-                onChange={(e) => setSelect(e.target.value)}
-              >
-                <MenuItem value="Yes">Yes</MenuItem>
-                <MenuItem value="No">No</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Button
-          disabled={
-            quiz.question.length < 5 ||
-            quiz.option1.length < 3 ||
-            quiz.option2.length < 3 ||
-            quiz.option3.length < 3 ||
-            quiz.option4.length < 3 ||
-            quiz.answer.length < 3
-          }
-          variant="contained"
-          color="primary"
-          onClick={handleClick}
-          sx={{ width: "100%", mt: 3 }}
-        >
-          Add Quiz
-        </Button>
-      </Paper>
-    </Container>
+    <Box sx={{ maxHeight: 400, overflowY: "auto" }}>
+      {" "}
+      {/* Add maxHeight and overflowY */}
+      <Card>
+        <TableContainer>
+          <Table sx={{ minWidth: 800 }} aria-label="table in dashboard">
+            <TableHead>
+              <TableRow>
+                <TableCell>Avatar</TableCell>
+                <TableCell>Nom</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Rôle</TableCell>
+                <TableCell>Statut</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((user) => (
+                <TableRow
+                  hover
+                  key={user.email}
+                  sx={{
+                    "&:last-of-type td, &:last-of-type th": { border: 0 },
+                  }}
+                >
+                  <TableCell>
+                    <Avatar
+                      alt={`${user.firstName} ${user.lastName}`}
+                      src={user.avatar}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    {user.firstName} {user.lastName}
+                  </TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>
+                    {user.role === "ADMIN"
+                      ? "Administrateur"
+                      : user.role === "STUDENT"
+                      ? "Étudiant"
+                      : user.role === "FORMATEUR"
+                      ? "Enseignant"
+                      : "Inconnu"}
+                  </TableCell>
+                  <TableCell>
+                    <Chip
+                      label={user.isActivee ? "Actif" : "Inactif"}
+                      color={user.isActivee ? "success" : "error"}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Card>
+    </Box>
   );
-};
+}
 
-export default AddQuiz;
+export default TableUsers;

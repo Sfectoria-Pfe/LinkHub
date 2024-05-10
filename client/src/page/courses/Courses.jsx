@@ -5,7 +5,9 @@ import { Box, Typography, Button, TextField, MenuItem } from "@mui/material";
 import Header from "../../components/Header";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
-
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -192,48 +194,26 @@ const Courses = () => {
       align: "center",
       headerAlign: "center",
       renderCell: ({ row }) => (
-        <>
-          <Button
-            variant="contained"
-            color="secondary"
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <DeleteIcon
+            style={{ marginRight: "10px", color: "red" }}
             onClick={() => handleDelete(row._id)}
-            style={{
-              marginRight: "8px",
-              backgroundColor: "#007198",
-              color: "#fff",
-            }} // Add right margin to delete button
-            className="me-2"
-          >
-            supprimer
-          </Button>
-          <Button
-            variant="contained"
+          />
+          <EditIcon
+            style={{ marginRight: "10px" }}
             color="primary"
             onClick={() => handleEdit(row)}
-            style={{
-              marginRight: "8px",
-              backgroundColor: "#0594D0",
-              color: "#fff",
-            }} // Ajouter
-            className="me-2"
-          >
-            modifier
-          </Button>
+          />
           <Link to={`/readCourseTeacher/${row._id}`}>
-            <Button
-              variant="contained"
-              color="info"
-              style={{
-                marginRight: "8px",
-                backgroundColor: "#3498DB",
-                color: "#fff",
-              }}
-              className="ms-2"
-            >
-              Document
-            </Button>
+            <PictureAsPdfOutlinedIcon />
           </Link>
-        </>
+        </div>
       ),
     },
   ];

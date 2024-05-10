@@ -23,6 +23,7 @@ import ReviewsIcon from "@mui/icons-material/Reviews";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import axios from "axios";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -128,6 +129,25 @@ const Sidebar = ({ open, handleDrawerClose }) => {
       setRole(userData.role || "");
     } catch (error) {
       console.error("Error fetching user data:", error);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:3000/api/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("token");
+      navigate("/login"); // navigate to login or wherever you want after logout
+    } catch (error) {
+      console.error("Error logging out:", error);
     }
   };
 
@@ -281,6 +301,12 @@ const Sidebar = ({ open, handleDrawerClose }) => {
             </Tooltip>
           </ListItem>
         ))}
+        <ListItem button onClick={logout} style={{ marginTop: "33px" }}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
       </List>
     </StyledDrawer>
   );

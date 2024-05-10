@@ -45,6 +45,7 @@ import TableUsers from "../components/AdminDashboard/Users/TableUsers";
 import BarChartPage from "../page/barChart/BarChartPage ";
 import PieChartComponent from "../page/pieChart/PieChartComponent";
 import DashboardFormatteur from "../components/TeacherDashboard/Pages/dashboard/DashboardFormatteur";
+import EventsStudents from "../components/StydentDashboard/Pages/calanderEvent/EventsStudents";
 
 //
 export const router = createBrowserRouter([
@@ -284,8 +285,8 @@ export const router = createBrowserRouter([
         element: <AttachmentPage />,
       },
       {
-        path: "/calendar/student",
-        element: <Calendar />,
+        path: "/EventsStudents/student",
+        element: <EventsStudents />,
       },
       {
         path: "/affichQuiz/student",
