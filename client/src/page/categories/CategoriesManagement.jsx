@@ -5,6 +5,9 @@ import { Box, Typography, Button, TextField } from "@mui/material";
 import Header from "../../components/Header";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { BiShow } from "react-icons/bi";
 
 const CategoriesManagement = () => {
   const [categories, setCategories] = useState([]);
@@ -95,7 +98,6 @@ const CategoriesManagement = () => {
         );
         Swal.fire("Succès !", "Catégorie mise à jour avec succès.", "success");
       } else {
-        // Sinon, ajouter la catégorie
         await axios.post(
           "http://localhost:3000/api/categories/create",
           formDataUpload
@@ -103,7 +105,6 @@ const CategoriesManagement = () => {
         Swal.fire("Succès !", "Catégorie créée avec succès.", "success");
       }
 
-      // Réinitialiser les données du formulaire et récupérer les catégories mises à jour
       setFormData({
         id: "",
         name: "",
@@ -122,6 +123,8 @@ const CategoriesManagement = () => {
 
   const handleUpdateClick = (category) => {
     setFormData({ ...category });
+    const formSection = document.getElementById("form-section");
+    formSection.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -137,49 +140,35 @@ const CategoriesManagement = () => {
           columns={[
             { field: "name", headerName: "Nom", width: 100 },
             { field: "description", headerName: "Description", width: 200 },
-            { field: "imageUrl", headerName: "URL de l'image", width: 200 },
-            { field: "price", headerName: "Prix", width: 100 },
+            { field: "imageUrl", headerName: "Image", width: 200 },
+            {
+              field: "price",
+              headerName: "Prix",
+              width: 100,
+              renderCell: (params) => <>{params.value} TND</>,
+            },
             { field: "dateDebut", headerName: "Date de début", width: 200 },
             { field: "dateFin", headerName: "Date de fin", width: 200 },
             {
               field: "action",
               headerName: "Action",
-              width: 400,
+              width: 100,
+              flex: 1,
+              align: "center",
+              headerAlign: "center",
+              Padding: 10,
               renderCell: ({ row }) => (
                 <Box>
-                  <Button
-                    variant="contained"
-                    color="secondary"
+                  <DeleteIcon
+                    style={{ color: "red" }}
                     onClick={() => handleDelete(row.id)}
-                    style={{
-                      marginRight: "8px",
-                      backgroundColor: "#007198",
-                      color: "#fff",
-                    }} // Ajouter une marge à droite du bouton de suppression
-                  >
-                    Supprimer
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleUpdateClick(row)}
-                    style={{
-                      marginRight: "8px",
-                      backgroundColor: "#0594D0",
-                      color: "#fff",
-                    }} // Ajouter une marge à droite du bouton de mise à jour
-                  >
-                    Modifier
-                  </Button>
+                  />
 
-                  {/* Lien vers les cours dans la catégorie */}
-                  <Link to={`/courCatgeoTeacher/${row.id}`}>
-                    <Button
-                      style={{ backgroundColor: "#3498DB", color: "#fff" }}
-                    >
-                      Lire
-                    </Button>
-                  </Link>
+                  <EditIcon
+                    onClick={() => handleUpdateClick(row)}
+                    style={{ marginLeft: "10px" }}
+                    color="primary"
+                  />
                 </Box>
               ),
             },
@@ -187,7 +176,7 @@ const CategoriesManagement = () => {
         />
       </Box>
 
-      <Box sx={{ mt: 3 }}>
+      <Box sx={{ mt: 3 }} id="form-section">
         <Typography variant="h5">
           Ajouter / Mettre à jour une catégorie
         </Typography>

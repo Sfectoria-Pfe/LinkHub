@@ -8,6 +8,8 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PictureAsPdfOutlinedIcon from "@mui/icons-material/PictureAsPdfOutlined";
+import "../../css/coursesTeacher.css"; // Import your custom CSS file
+
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -221,14 +223,17 @@ const Courses = () => {
   const getRowId = (row) => row._id;
 
   return (
-    <Box>
+    <Box className="courses-page">
       <Header title={"Cours"} subTitle={"Gestion des cours"} />
-
-      <Box sx={{ height: 600, mx: "auto" }}>
-        <DataGrid rows={courses} columns={columns} getRowId={getRowId} />
+      <Box className="table-container">
+        <DataGrid
+          rows={courses}
+          columns={columns}
+          getRowId={getRowId}
+          autoHeight
+        />
       </Box>
-
-      <Box sx={{ mt: 3 }}>
+      <Box className="form-container">
         <Typography variant="h5">Ajouter / Modifier un cours</Typography>
         <form onSubmit={selectedCourse ? handleUpdate : handleSubmit}>
           <TextField
