@@ -2,9 +2,17 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import { Button, Snackbar, Stack, Avatar } from "@mui/material";
+import {
+  Button,
+  Snackbar,
+  Stack,
+  Avatar,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
 import Header from "../../navigation/Header";
 import Swal from "sweetalert2";
+import { Edit as EditIcon } from "@mui/icons-material";
 
 function ProfilStudent() {
   const [formData, setFormData] = useState({
@@ -15,6 +23,7 @@ function ProfilStudent() {
     telephone: "", // Added telephone field
     address: "", // Added address field
     avatar: "", // Added avatar field
+    bio: "", // Added bio field
   });
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -37,6 +46,7 @@ function ProfilStudent() {
         telephone: userData.telephone || "", // handle case if telephone is null
         address: userData.address || "", // handle case if address is null
         avatar: userData.avatar || "", // handle case if avatar is null
+        bio: userData.bio || "", // handle case if bio is null
       });
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -55,8 +65,16 @@ function ProfilStudent() {
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
-      const { id, firstName, lastName, email, telephone, address, avatar } =
-        formData;
+      const {
+        id,
+        firstName,
+        lastName,
+        email,
+        telephone,
+        address,
+        avatar,
+        bio,
+      } = formData;
       const updatedData = {
         id,
         firstName,
@@ -65,6 +83,7 @@ function ProfilStudent() {
         telephone,
         address,
         avatar,
+        bio,
       };
 
       await axios.put(
@@ -127,7 +146,9 @@ function ProfilStudent() {
             src={formData.avatar}
             sx={{ width: 80, height: 80, cursor: "pointer" }}
             onClick={() => document.getElementById("avatar-input").click()}
-          />
+          >
+            <EditIcon />
+          </Avatar>
           <input
             id="avatar-input"
             type="file"
@@ -135,9 +156,6 @@ function ProfilStudent() {
             style={{ display: "none" }}
             onChange={handleAvatarChange}
           />
-          <Button variant="contained" component="label" htmlFor="avatar-input">
-            Mettre à jour l'image
-          </Button>
         </Stack>
 
         <TextField
@@ -177,6 +195,14 @@ function ProfilStudent() {
           name="address"
           value={formData.address}
           label="Adresse"
+          variant="outlined"
+        />
+
+        <TextField
+          onChange={handleChange}
+          name="bio"
+          value={formData.bio}
+          label="Bio"
           variant="outlined"
         />
 

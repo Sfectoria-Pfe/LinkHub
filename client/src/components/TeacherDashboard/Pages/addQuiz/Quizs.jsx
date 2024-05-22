@@ -67,7 +67,7 @@ const Quizs = (props) => {
     <>
       <AddQuiz showAlert={showAlert} />
       <div className="my-3 row gy-2">
-        <h2>Your quizs</h2>
+        <h2>votre quiz</h2>
         <div className="container">
           {quizs.length === 0 && "No notes to display"}
         </div>
@@ -92,7 +92,7 @@ const Quizs = (props) => {
         ))}
       </div>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
           <Modal.Title>Edit Quiz</Modal.Title>
         </Modal.Header>

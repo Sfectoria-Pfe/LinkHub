@@ -7,7 +7,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { DownloadOutlined } from "@mui/icons-material";
+
 import axios from "axios";
 
 const Row2 = () => {
@@ -20,7 +20,10 @@ const Row2 = () => {
         const response = await axios.get("http://localhost:3000/api/users/all");
         setUsers(response.data);
       } catch (error) {
-        console.error("Erreur lors de la récupération des utilisateurs :", error);
+        console.error(
+          "Erreur lors de la récupération des utilisateurs :",
+          error
+        );
       }
     };
 
@@ -35,29 +38,7 @@ const Row2 = () => {
           direction={"row"}
           flexWrap={"wrap"}
           justifyContent={"space-between"}
-        >
-          <Box>
-            <Typography
-              color={theme.palette.secondary.main}
-              mb={1}
-              mt={2}
-              ml={4}
-              variant="h6"
-              fontWeight={"bold"}
-            >
-              Revenue Generated
-            </Typography>
-            <Typography variant="body2" ml={4}>
-              $59,342.32
-            </Typography>
-          </Box>
-
-          <Box>
-            <IconButton sx={{ mr: 3 }}>
-              <DownloadOutlined />
-            </IconButton>
-          </Box>
-        </Stack>
+        ></Stack>
       </Paper>
 
       <Paper
@@ -98,7 +79,9 @@ const Row2 = () => {
                   marginBottom: "8px",
                 }}
               >
-                <Typography variant="body2">Prénom: {user.firstName}</Typography>
+                <Typography variant="body2">
+                  Prénom: {user.firstName}
+                </Typography>
                 <Typography variant="body2">Email: {user.email}</Typography>
                 <Typography variant="body2">Rôle: {user.role}</Typography>
               </Box>

@@ -60,9 +60,9 @@ quizRouter.get("/fetchallquiz", fetchUser, async (req, res) => {
 });
 
 // ROUTE 2: Fetch all the quizzes without authentication
-quizRouter.get("/fetchallquiznoauthentication/:message", async (req, res) => {
+quizRouter.get("/fetchallquiznoauthentication", async (req, res) => {
   try {
-    const quizs = await Quiz.find({ code: req.params.message });
+    const quizs = await Quiz.find();
     res.json(quizs);
   } catch (error) {
     console.error(error.message);

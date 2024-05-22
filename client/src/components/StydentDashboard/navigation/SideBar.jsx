@@ -12,6 +12,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { grey } from "@mui/material/colors";
 import {
   ChevronLeft as ChevronLeftIcon,
@@ -104,7 +105,7 @@ const Array2 = [
   {
     text: "Calendar",
     icon: <CalendarTodayOutlinedIcon />,
-    path: "/calendar/student",
+    path: "/EventsStudents/student",
   },
   {
     text: "Categories",
@@ -152,6 +153,25 @@ const Sidebar = ({ open, handleDrawerClose }) => {
       setRole(userData.role || "");
     } catch (error) {
       console.error("Error fetching user data:", error);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:3000/api/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("token");
+      navigate("/login"); // navigate to login or wherever you want after logout
+    } catch (error) {
+      console.error("Error logging out:", error);
     }
   };
 
@@ -305,6 +325,12 @@ const Sidebar = ({ open, handleDrawerClose }) => {
             </Tooltip>
           </ListItem>
         ))}
+        <ListItem button onClick={logout} style={{ marginTop: "33px" }}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
       </List>
     </StyledDrawer>
   );

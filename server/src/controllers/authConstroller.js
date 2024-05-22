@@ -161,3 +161,11 @@ exports.authentificateToken = (req, res, next) => {
     });
   });
 };
+
+// logout a user
+exports.logout = (req, res) => {
+  res.cookie("jwt", "", { maxAge: 1 });
+  res.send({
+    message: "User logged out successfully",
+  });
+};
