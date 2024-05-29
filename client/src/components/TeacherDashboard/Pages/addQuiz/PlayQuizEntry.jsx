@@ -1,111 +1,95 @@
-import React, { useState } from "react";
-import { json } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Box,
+  Paper,
+} from "@mui/material";
 import Game from "./Game";
 
 const PlayQuizEntry = () => {
-  const [message, setMessage] = useState("");
+  const [quizs, setQuizs] = useState([]);
   const [seq, setSeq] = useState("");
-  const quizsInitial = [];
-  const [quizs, setQuizs] = useState(quizsInitial);
+  const [val, setVal] = useState("");
 
-  var [val, setVal] = useState("");
-
-  // var TEST = localStorage.getItem("val");
-
-  // var windowsvariable = sessionStorage.getItem(window.val);
-
-  const handleChange = (event) => {
-    setMessage(event.target.value);
+  const fetchAllQuiz = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/quiz/fetchallquiznoauthentication",
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": localStorage.getItem("token"),
+          },
+        }
+      );
+      const json = await response.json();
+      console.log(json, "FETCH");
+      setSeq("1");
+      setQuizs(json);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des questionnaires :",
+        error
+      );
+    }
   };
-
-  const handleClick = () => {
-    // 👇 "message" stores input field value
-    // setUpdated(message);
-  };
-
-  const fetchallquiz = async () => {
-    const response = await fetch(
-      `http://localhost:3000/api/quiz/fetchallquiznoauthentication/${message}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("token"),
-        },
-      }
-    );
-    const json = await response.json();
-    console.log(json, "FETCH");
-    setSeq("1");
-    setQuizs(json);
-    // localStorage.setItem("val", 0);
-    const disableBtn = () => {
-      document.getElementById("btn2").disabled = true;
-    };
-    disableBtn();
-  };
-
-  console.log(seq);
 
   const myFunction = () => {
     console.log(sessionStorage.getItem("val"));
     setVal(sessionStorage.getItem("val"));
-    const disableBtn = () => {
-      document.getElementById("btn").disabled = true;
-    };
-    disableBtn();
   };
 
+  useEffect(() => {
+    fetchAllQuiz();
+  }, []);
+
   return (
-    <div>
-      <div>
-        <input
-          type="text"
-          id="message"
-          name="message"
-          onChange={handleChange}
-          value={message}
-        />
+    <Container maxWidth="md">
+      <Paper elevation={3} style={{ padding: "2rem" }}>
+        <Typography variant="h4" align="center" gutterBottom>
+          Jouer au Quiz
+        </Typography>
 
-        <h2>Message: {message}</h2>
+        <Box mt={3}>
+          {quizs.map((quiz) => (
+            <Game quiz={quiz} key={quiz._id} />
+          ))}
+        </Box>
 
-        {/* <h2>Updated: {updated}</h2> */}
-
-        <button className="btn btn-primary" id="btn2" onClick={fetchallquiz}>
-          Play
-        </button>
-      </div>
-
-      {quizs.map((quiz) => {
-        return <Game quiz={quiz} key={quiz._id} />;
-      })}
-
-      <button
-        className={seq == "1" ? "btn btn-primary mx-2" : "d-none mx-2"}
-        id="btn"
-        onClick={myFunction}
-      >
-        {" "}
-        GENERATE SCORE{" "}
-      </button>
-
-      <div className={seq == "1" ? "d-flex" : "d-none"}>
-        {" "}
-        Your Score is : {val}{" "}
-      </div>
-
-      {/* <button >GENERATE SCORE</button>  */}
-      <div>
-        <a
-          href="http://localhost:5173/playquiz"
-          class="btn btn-danger my-2"
-          tabIndex="-1"
-          role="button"
+        <Button
+          variant="contained"
+          color="primary"
+          className={seq === "1" ? "" : "d-none"}
+          onClick={myFunction}
+          style={{ marginTop: "2rem" }}
         >
-          RESET
-        </a>
-      </div>
-    </div>
+          Générer le Score
+        </Button>
+
+        <Typography
+          variant="body1"
+          className={seq === "1" ? "d-flex" : "d-none"}
+          style={{ marginTop: "1rem" }}
+        >
+          Votre score est : {val}
+        </Typography>
+
+        <div style={{ marginTop: "2rem", textAlign: "center" }}>
+          <Button
+            variant="contained"
+            color="error"
+            href="http://localhost:5173/playquiz"
+            role="button"
+          >
+            Réinitialiser
+          </Button>
+        </div>
+      </Paper>
+    </Container>
   );
 };
 

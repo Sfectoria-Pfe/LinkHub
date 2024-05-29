@@ -8,6 +8,7 @@ const {
   deactivateUser,
   getNotifications,
   getNewUsers,
+  logout,
 } = require("../controllers/authConstroller");
 
 const authRouter = express.Router();
@@ -136,9 +137,28 @@ const authRouter = express.Router();
  *      '200':
  *        description: User verified successfully
  */
-
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     tags: ["auth"]
+ *     summary: Logout user
+ *     description: Logout user
+ *     responses:
+ *       '200':
+ *         description: Successful operation
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User logged out successfully"
+ */
 authRouter.post("/signup", signup);
 authRouter.post("/login", login);
+authRouter.post("/logout", logout);
 authRouter.get("/me", authentificateToken);
 authRouter.post("/verif/:activationCode", verifyUser);
 authRouter.put("/:userId/activate", activateUser);

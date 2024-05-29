@@ -1,30 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import MuiDrawer from "@mui/material/Drawer";
+
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import { Avatar, styled, useTheme, Typography, Tooltip } from "@mui/material";
-import MuiDrawer from "@mui/material/Drawer";
-import { HomeOutlined } from "@mui/icons-material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import { useLocation, useNavigate } from "react-router-dom";
 import { grey } from "@mui/material/colors";
@@ -32,6 +22,7 @@ import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlin
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
 import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
 import QuizIcon from "@mui/icons-material/Quiz";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -55,9 +46,8 @@ const closedMixin = (theme) => ({
   },
 });
 
-const Drawer = styled(MuiDrawer, {
+const StyledDrawer = styled("nav", {
   shouldForwardProp: (prop) => prop !== "open",
-  // @ts-ignore
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
@@ -102,7 +92,6 @@ const Array1 = [
 ];
 
 const Array2 = [
-  { text: "Profile Form", icon: <PersonOutlinedIcon />, path: "/form/teacher" },
   {
     text: "Calendar",
     icon: <CalendarTodayOutlinedIcon />,
@@ -139,13 +128,54 @@ const Array3 = [
   },
 ];
 
-// eslint-disable-next-line react/prop-types
-const SideBar = ({ open, handleDrawerClose }) => {
-  let location = useLocation();
+const Sidebar = ({ open, handleDrawerClose }) => {
+  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const theme = useTheme();
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("http://localhost:3000/api/auth/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const userData = response.data.user;
+      setAvatar(userData.avatar || "");
+      setName(`${userData.firstName} ${userData.lastName}`);
+      setRole(userData.role || "");
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.post(
+        "http://localhost:3000/api/auth/logout",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      localStorage.removeItem("token");
+      navigate("/login"); // navigate to login or wherever you want after logout
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
   return (
-    <Drawer variant="permanent" open={open}>
+    <StyledDrawer variant="permanent" open={open}>
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (
@@ -165,14 +195,14 @@ const SideBar = ({ open, handleDrawerClose }) => {
           border: "2px solid grey",
           transition: "0.25s",
         }}
-        alt="Remy Sharp"
-        src="https://media.allure.com/photos/5a26c1d8753d0c2eea9df033/3:4/w_1262,h_1683,c_limit/mostbeautiful.jpg"
+        alt="Avatar"
+        src={avatar}
       />
       <Typography
         align="center"
         sx={{ fontSize: open ? 17 : 0, transition: "0.25s" }}
       >
-        Layla Ali
+        {name}
       </Typography>
       <Typography
         align="center"
@@ -182,9 +212,8 @@ const SideBar = ({ open, handleDrawerClose }) => {
           color: theme.palette.info.main,
         }}
       >
-        Admin
+        {role}
       </Typography>
-
       <Divider />
 
       <List>
@@ -306,9 +335,15 @@ const SideBar = ({ open, handleDrawerClose }) => {
             </Tooltip>
           </ListItem>
         ))}
+        <ListItem button onClick={logout} style={{ marginTop: "33px" }}>
+          <ListItemIcon>
+            <LogoutIcon />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
       </List>
-    </Drawer>
+    </StyledDrawer>
   );
 };
 
-export default SideBar;
+export default Sidebar;

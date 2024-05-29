@@ -1,45 +1,84 @@
 import React, { useContext } from "react";
 import quizContext from "../../context/quizContext";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import Avatar from "@mui/material/Avatar";
+import Divider from "@mui/material/Divider";
+import { styled } from "@mui/system";
 
+// Styled Avatar component
+const StyledAvatar = styled(Avatar)({
+  width: 32,
+  height: 32,
+  marginRight: 8,
+});
 
-const Quizitem = (props) => {
-const context = useContext(quizContext);
-const { deleteQuiz } = context;
+const QuizItem = (props) => {
+  const context = useContext(quizContext);
+  const { deleteQuiz } = context;
   const { quiz, updateQuiz } = props;
+
   return (
-    <div className="col-md-6 gx-1">
-      <div className="my-3 card">
-        <div className="card-body">
-          <h5 className="card-title">{quiz.question}</h5>
-          <div className="row gx-2">
-            <div className="col">
-              <ul><li>{quiz.option1}</li></ul>
-            </div>
-            <div className="col">
-            <ul><li>{quiz.option2}</li></ul>
-            </div>
-            <div className="col">
-            <ul><li>{quiz.option3}</li></ul>
-            </div>
-            <div className="col">
-            <ul><li>{quiz.option4}</li></ul>
-            </div>
-          </div>
-          <div className="my-1 row">
-            <div className="col">Answer is : {quiz.answer}</div>
-          </div>
-          <div className="my-1 row">
-            <div className="col">Is the question type MCQ : {quiz.mcq}</div>
-          </div>
-          <div className="my-1 row">
-            <div className="col">Title : {quiz.title}</div>
-          </div>
-          <i className="mx-2 fa-solid fa-trash" onClick={()=>{deleteQuiz(quiz._id); props.showAlert("deleted successfully","success")}}></i>
-          <i className="mx-2 fa-solid fa-file-pen" onClick={()=>{updateQuiz(quiz)}}></i>
-        </div>
-      </div>
-    </div>
+    <Grid item xs={12} md={6} sx={{ p: 1 }}>
+      <Paper elevation={3} sx={{ p: 2 }}>
+        <Typography variant="h6" gutterBottom>
+          {quiz.question}
+        </Typography>
+        <Grid container spacing={2} alignItems="center">
+          {[1, 2, 3, 4].map((optionNumber) => (
+            <Grid item xs={12} key={optionNumber}>
+              <Typography variant="body1">{`Option ${optionNumber}: ${
+                quiz[`option${optionNumber}`]
+              }`}</Typography>
+            </Grid>
+          ))}
+          <Grid item xs={12}>
+            <Typography variant="body1">Réponse : {quiz.answer}</Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1">
+              Est-ce une question à choix multiple : {quiz.mcq}
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant="body1">Titre : {quiz.title}</Typography>
+          </Grid>
+          <Divider />
+          <Grid
+            item
+            xs={12}
+            container
+            justifyContent="flex-end"
+            alignItems="center"
+          >
+            <IconButton
+              onClick={() => {
+                deleteQuiz(quiz._id);
+                props.showAlert("Supprimé avec succès", "success");
+              }}
+              aria-label="Supprimer"
+            >
+              <DeleteIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                updateQuiz(quiz);
+              }}
+              aria-label="Modifier"
+            >
+              <EditIcon />
+            </IconButton>
+            <StyledAvatar alt="Utilisateur" src="/images/avatar.jpg" />
+            <Typography variant="body2">Nom d'utilisateur</Typography>
+          </Grid>
+        </Grid>
+      </Paper>
+    </Grid>
   );
 };
 
-export default Quizitem;
+export default QuizItem;

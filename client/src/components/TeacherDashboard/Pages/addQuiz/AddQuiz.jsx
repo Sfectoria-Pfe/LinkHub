@@ -1,23 +1,22 @@
-import React, { useContext, useRef } from "react";
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import quizContext from "../../context/quizContext";
+import {
+  Button,
+  TextField,
+  Typography,
+  Grid,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Paper,
+} from "@mui/material";
 
 const AddQuiz = (props) => {
   const context = useContext(quizContext);
   const { addQuiz, editCode } = context;
- 
-  const [select, setSelect] = useState("yes");
 
-
-  // const [user, setUser] = useState({ user: ""})
-
-  // const getUser = (currentUser) => {
-  //   ref.current.click();
-  //   setUser({
-  //     user :currentUser.user,
-  //   })
-
-
+  const [select, setSelect] = useState("oui");
   const [quiz, setQuiz] = useState({
     id: "",
     question: "",
@@ -28,11 +27,11 @@ const AddQuiz = (props) => {
     answer: "",
     title: "",
     mcq: select,
-    code:""
+    code: "",
   });
-  const handleClick = (e) => {
-    e.preventDefault(); //page doesn't get reload
 
+  const handleClick = (e) => {
+    e.preventDefault();
     addQuiz(
       quiz.question,
       quiz.option1,
@@ -52,211 +51,133 @@ const AddQuiz = (props) => {
       option4: "",
       answer: "",
       title: "",
-      mcq: select
+      mcq: select,
     });
-    props.showAlert("Added Successfully", "success");
+    props.showAlert("Ajouté avec succès", "success");
   };
-
-  // const ref = useRef(null);
-  // const refClose = useRef(null);
 
   var code;
-  const [gcode, setGcode] = useState("")
+  const [gcode, setGcode] = useState("");
 
-
-const test = () =>{
-  // generate code
-  const publish = ()=>{
-    var len = 6;
-    var arr = "1234567890qwertyuiopasdfghjklzxcvbnm"
-    var ans= "";
-    for (var i = len; i > 0; i--) {
-			ans+=
-			arr[Math.floor(Math.random() * arr.length)];
-		}
-    console.log(ans);
-    
-    code = ans;
-    console.log(code, "CODE");
-    setGcode(code);
-  }
-  publish();
-  // console.log(code, "OUTSIIDE");
-
-
-  // add code to the questions
-  const editTESTCode =()=>{
-    //console.log('updating quiz...', quiz);
-    editCode( code )
-    console.log(code, "INSIDE EDITCODE")
-    props.showAlert("Quiz Published Successfully", "success");
-  }
-  editTESTCode()
-
-}
-  
-
-
+  const test = () => {
+    const publish = () => {
+      var len = 6;
+      var arr = "1234567890qwertyuiopasdfghjklzxcvbnm";
+      var ans = "";
+      for (var i = len; i > 0; i--) {
+        ans += arr[Math.floor(Math.random() * arr.length)];
+      }
+      code = ans;
+      setGcode(code);
+    };
+    publish();
+    const editTESTCode = () => {
+      editCode(code);
+      props.showAlert("Quiz publié avec succès", "success");
+    };
+    editTESTCode();
+  };
 
   const onChange = (e) => {
-    setQuiz({ ...quiz, [e.target.name]: e.target.value }); //whatever value inside the quiz object will exist as it is but jo properties aage likhi ja rhi hai inko add ya overwrite kar dena
+    setQuiz({ ...quiz, [e.target.name]: e.target.value });
   };
+
   return (
-    <div>
-      <div className="container my-3">
-        <h2>Add your Quiz</h2> 
-        {/* http://localhost:1000/api/quiz/codeupdate */}
-        <a onClick={test} className="btn btn-primary " tabIndex="-1" role="button">Publish</a>
-        <input type="text" name="code" value={gcode} className="mx-3"/>
-
-        <div className="my-2 mb-3">
-          <label htmlFor="title" className="form-label">
-            {" "}
-            Question{" "}
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="question"
-            name="question"
-            onChange={onChange}
-            value={quiz.question}
-            minLength={5}
-            required
-            placeholder="write your Question here"
-          />
-        </div>
-        <div className="col">
-          <div className="mb-3">
-            <label htmlFor="title" className="form-label">
-              {" "}
-              title{" "}
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
+    <Grid item xs={12} md={6} sx={{ p: 1 }}>
+      <Paper elevation={3} sx={{ p: 2 }}>
+        <Typography variant="h4" mb={3}>
+          Ajoutez votre quiz
+        </Typography>
+        <Button
+          onClick={test}
+          variant="contained"
+          color="primary"
+          sx={{ mb: 3 }}
+        >
+          Publier
+        </Button>
+        <TextField
+          fullWidth
+          label="Code"
+          variant="outlined"
+          name="code"
+          value={gcode}
+          onChange={onChange}
+          sx={{ mb: 3 }}
+        />
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Question"
+              variant="outlined"
+              name="question"
+              value={quiz.question}
+              onChange={onChange}
+              required
+              minLength={5}
+              placeholder="Écrivez votre question ici"
+              sx={{ mb: 2 }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Titre"
+              variant="outlined"
               name="title"
-              onChange={onChange}
               value={quiz.title}
-              minLength={5}
-              required
-              placeholder="Enter the title"
-            />
-          </div>
-        </div>
-
-        <div className="row gx-5">
-          <div className="col">
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                {" "}
-                Option 1{" "}
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="option1"
-                name="option1"
-                onChange={onChange}
-                value={quiz.option1}
-                minLength={5}
-                required
-                placeholder="Enter the option1"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                {" "}
-                Option 2{" "}
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="option2"
-                name="option2"
-                onChange={onChange}
-                value={quiz.option2}
-                minLength={5}
-                required
-                placeholder="Enter the option2"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                {" "}
-                Option 3{" "}
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="option3"
-                name="option3"
-                onChange={onChange}
-                value={quiz.option3}
-                minLength={5}
-                required
-                placeholder="Enter the option3"
-              />
-            </div>
-          </div>
-          <div className="col">
-            <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                {" "}
-                Option 4{" "}
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="option4"
-                name="option4"
-                onChange={onChange}
-                value={quiz.option4}
-                minLength={5}
-                required
-                placeholder="Enter the option4"
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="mb-3">
-            <label htmlFor="title" className="form-label">
-              {" "}
-              Answer of the above question{" "}
-            </label>
-            <input
-              type="text"
-              className="form-control"
-              id="answer"
-              name="answer"
               onChange={onChange}
-              value={quiz.answer}
-              minLength={5}
               required
-              placeholder="Enter the answer"
+              minLength={5}
+              placeholder="Entrez le titre"
+              sx={{ mb: 2 }}
             />
-          </div>
-
-          <div className="mx-1 my-2 row">Is this question MCQ:
-          <select name="mcq" value={select} onChange={e=>setSelect(e.target.value)} style={{width:"100px", marginLeft: "100px", borderColor: "grey"}}>
-            <option value="Yes" defaultValue={"yes"}>yes</option>
-            <option value="No">no</option>
-          </select>
-        </div>
-
-        </div>
-
-
-        
-
-        <button
+          </Grid>
+          {[1, 2, 3, 4].map((optionNumber) => (
+            <Grid item xs={6} key={optionNumber}>
+              <TextField
+                fullWidth
+                label={`Option ${optionNumber}`}
+                variant="outlined"
+                name={`option${optionNumber}`}
+                value={quiz[`option${optionNumber}`]}
+                onChange={onChange}
+                required
+                minLength={5}
+                placeholder={`Entrez l'option ${optionNumber}`}
+                sx={{ mb: 2 }}
+              />
+            </Grid>
+          ))}
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              label="Réponse à la question ci-dessus"
+              variant="outlined"
+              name="answer"
+              value={quiz.answer}
+              onChange={onChange}
+              required
+              minLength={5}
+              placeholder="Entrez la réponse"
+              sx={{ mb: 2 }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth sx={{ mb: 2 }}>
+              <InputLabel>Cette question est-elle QCM :</InputLabel>
+              <Select
+                value={select}
+                onChange={(e) => setSelect(e.target.value)}
+              >
+                <MenuItem value="oui">Oui</MenuItem>
+                <MenuItem value="non">Non</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        <Button
           disabled={
             quiz.question.length < 5 ||
             quiz.option1.length < 3 ||
@@ -265,14 +186,15 @@ const test = () =>{
             quiz.option4.length < 3 ||
             quiz.answer.length < 3
           }
-          type="submit"
-          className="btn btn-dark"
+          variant="contained"
+          color="primary"
           onClick={handleClick}
+          sx={{ width: "100%", mt: 3 }}
         >
-          Add Quiz
-        </button>
-      </div>
-    </div>
+          Ajouter un quiz
+        </Button>
+      </Paper>
+    </Grid>
   );
 };
 

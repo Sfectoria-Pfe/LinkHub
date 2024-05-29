@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTheme } from "@mui/material";
 import { Box, Typography, Button, TextField, MenuItem } from "@mui/material";
-import {
-  AdminPanelSettingsOutlined,
-  LockOpenOutlined,
-  SecurityOutlined,
-} from "@mui/icons-material";
 import Header from "../../components/Header";
 import Swal from "sweetalert2";
+import { PiStudentBold } from "react-icons/pi";
+import { FaChalkboardTeacher } from "react-icons/fa";
+import { GrUserAdmin } from "react-icons/gr";
 
 const Team = () => {
   const theme = useTheme();
@@ -39,13 +39,15 @@ const Team = () => {
           role: user.role,
           password: user.password,
           access:
-            user.role === "ADMIN"
-              ? "Admin"
-              : user.role === "STUDENT"
-              ? "Utilisateur"
-              : user.role === "FORMATEUR"
-              ? "Gestionnaire"
-              : "Inconnu",
+            user.role === "ADMIN" ? (
+              <GrUserAdmin />
+            ) : user.role === "STUDENT" ? (
+              <PiStudentBold />
+            ) : user.role === "FORMATEUR" ? (
+              <FaChalkboardTeacher />
+            ) : (
+              "Inconnu"
+            ),
         }))
       );
     } catch (error) {
@@ -97,9 +99,11 @@ const Team = () => {
           formData
         );
         Swal.fire("Succès !", "Utilisateur mis à jour avec succès.", "success");
+        fetchData();
       } else {
         await axios.post("http://localhost:3000/api/users/create", formData);
         Swal.fire("Succès !", "Utilisateur créé avec succès.", "success");
+        fetchData();
       }
       setFormData({
         id: "",
@@ -109,7 +113,6 @@ const Team = () => {
         role: "",
         password: "",
       });
-      fetchData();
     } catch (error) {
       console.error(
         "Erreur lors de l'enregistrement de l'utilisateur :",
@@ -125,34 +128,37 @@ const Team = () => {
 
   const handleEdit = (user) => {
     setFormData({ ...user });
+    handleSubmit();
+    // Scroll to the bottom of the page to show the form
+    window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   };
 
   const columns = [
     {
       field: "id",
       headerName: "ID",
-      width: 100,
+      width: 150,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "firstName",
       headerName: "Prénom",
-      width: 150,
+      width: 180,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "lastName",
       headerName: "Nom de famille",
-      width: 150,
+      width: 180,
       align: "center",
       headerAlign: "center",
     },
     {
       field: "email",
       headerName: "E-mail",
-      width: 140,
+      width: 120,
       flex: 1,
       align: "center",
       headerAlign: "center",
@@ -161,7 +167,8 @@ const Team = () => {
     {
       field: "access",
       headerName: "Accès",
-      width: 200,
+      width: 120,
+      flex: 1,
       align: "center",
       headerAlign: "center",
       renderCell: ({ row }) => (
@@ -179,11 +186,11 @@ const Team = () => {
               borderRadius: "3px",
               textAlign: "center",
               backgroundColor:
-                row.access === "Admin"
+                row.access === "Administrateur"
                   ? theme.palette.primary.dark
-                  : row.access === "Manager"
+                  : row.access === "Enseignant"
                   ? theme.palette.secondary.dark
-                  : "#3da58a",
+                  : "#5CAFE7",
               color: "#fff",
               minWidth: 80,
               display: "flex",
@@ -191,16 +198,7 @@ const Team = () => {
               justifyContent: "center",
             }}
           >
-            {row.access === "Admin" && (
-              <AdminPanelSettingsOutlined fontSize="small" />
-            )}
-            {row.access === "Manager" && <SecurityOutlined fontSize="small" />}
-            {row.access === "Utilisateur" && (
-              <LockOpenOutlined fontSize="small" />
-            )}
-            <Typography sx={{ fontSize: "13px", marginLeft: 2 }}>
-              {row.access}
-            </Typography>
+            {row.access}
           </Box>
         </Box>
       ),
@@ -209,35 +207,23 @@ const Team = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 300,
-      align: "left",
+      width: 120,
+      flex: 1,
+      align: "center",
       headerAlign: "center",
+      Padding: 10,
       renderCell: ({ row }) => (
         <>
-          <Button
-            variant="contained"
-            className="me-2"
-            style={{ backgroundColor: "#007198", color: "#fff" }}
+          <DeleteIcon
+            style={{ color: "red" }}
             onClick={() => deleteUser(row.id)}
-          >
-            Supprimer
-          </Button>
+          />
 
-          <Button
-            variant="contained"
-            color="primary"
-            className="me-2"
-            style={{ backgroundColor: "#0594D0", color: "#fff" }}
+          <EditIcon
             onClick={() => handleEdit(row)}
-          >
-            Modifier
-          </Button>
-
-          {formData.id && (
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-              Mettre à jour l'utilisateur
-            </Button>
-          )}
+            style={{ marginRight: "10px" }}
+            color="primary"
+          />
         </>
       ),
     },
@@ -252,7 +238,7 @@ const Team = () => {
       </Box>
 
       <Box sx={{ mt: 3 }}>
-        <Typography variant="h5">Ajouter / Modifier un utilisateur</Typography>
+        <Typography variant="h5">Modifier un utilisateur</Typography>
         <form onSubmit={handleSubmit}>
           <TextField
             name="firstName"
@@ -287,9 +273,9 @@ const Team = () => {
             fullWidth
             margin="normal"
           >
-            <MenuItem value="ADMIN">Admin</MenuItem>
-            <MenuItem value="STUDENT">Utilisateur</MenuItem>
-            <MenuItem value="FORMATEUR">Gestionnaire</MenuItem>
+            <MenuItem value="ADMIN">Administrateur</MenuItem>
+            <MenuItem value="STUDENT">Étudiant</MenuItem>
+            <MenuItem value="FORMATEUR">Enseignant</MenuItem>
           </TextField>
           <TextField
             name="password"
@@ -302,7 +288,7 @@ const Team = () => {
           />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
             <Button type="submit" variant="contained" color="primary">
-              Ajouter un utilisateur
+              modifier
             </Button>
             {formData.id && (
               <Button

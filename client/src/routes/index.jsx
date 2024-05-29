@@ -5,13 +5,12 @@ import Team from "../page/team/Team";
 import Dashboard from "../page/dashboard/Dashboard";
 import Contacts from "../page/contacts/Contacts";
 import Calendar from "../page/calendar/Calendar";
-import PieChart from "../page/pieChart/PieChart";
 import NotFound from "../page/notFound/NotFound";
 import Invoices from "../page/invoices/Invoices";
 import Geography from "../page/geography/Geography";
 import Form from "../page/form/Form";
 import FAQ from "../page/faq/FAQ";
-import BarChart from "../page/barChart/BarChart";
+import PieChart from "../page/pieChart/PieChart";
 import CreateCourse from "../components/AdminDashboard/Courses/CreateCourse";
 import DeleteCourse from "../components/AdminDashboard/Courses/DeleteCourse";
 import UpdateCourse from "../components/AdminDashboard/Courses/UpdateCourse";
@@ -41,6 +40,12 @@ import CoursAtachment from "../components/categoriesCards/CoursAtachment";
 import AttachmentPage from "../components/categoriesCards/AttachmentPage";
 import MainMessages from "../messages/components/MainMessages";
 import MainProfile from "../ModifierProfile/components/MainProfile";
+import UsersCards from "../components/AdminDashboard/profileCards/UsersCards";
+import TableUsers from "../components/AdminDashboard/Users/TableUsers";
+import BarChartPage from "../page/barChart/BarChartPage ";
+import PieChartComponent from "../page/pieChart/PieChartComponent";
+import DashboardFormatteur from "../components/TeacherDashboard/Pages/dashboard/DashboardFormatteur";
+import EventsStudents from "../components/StydentDashboard/Pages/calanderEvent/EventsStudents";
 
 //
 export const router = createBrowserRouter([
@@ -61,6 +66,11 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: "/tableUsers",
+        element: <TableUsers />,
+      },
+      { path: "/usersCards", element: <UsersCards /> },
+      {
         path: "/team",
         element: <Team />,
       },
@@ -72,10 +82,7 @@ export const router = createBrowserRouter([
         path: "/calendar",
         element: <Calendar />,
       },
-      {
-        path: "/pie",
-        element: <PieChart />,
-      },
+
       {
         path: "/mainCourses",
         element: <MainCourses />,
@@ -85,8 +92,8 @@ export const router = createBrowserRouter([
         element: <Courses />,
       },
       {
-        path: "/notfound",
-        element: <NotFound />,
+        path: "/gereProfile/admin",
+        element: <ProfilStudent />,
       },
       {
         path: "/invoices",
@@ -106,8 +113,8 @@ export const router = createBrowserRouter([
         element: <FAQ />,
       },
       {
-        path: "/bar",
-        element: <BarChart />,
+        path: "/barchat/admin",
+        element: <BarChartPage />,
       },
 
       {
@@ -130,6 +137,10 @@ export const router = createBrowserRouter([
       {
         path: "/updateCourse/:id",
         element: <UpdateCourse />,
+      },
+      {
+        path: "/pieChartComponent",
+        element: <PieChartComponent />,
       },
       {
         path: "/readCourse/:courseId",
@@ -159,7 +170,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard/teacher",
-        element: <DashboardStudent />,
+        element: <DashboardFormatteur />,
       },
 
       {
@@ -215,7 +226,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/bar/teacher",
-        element: <BarChart />,
+        element: <BarChartPage />,
       },
       {
         path: "/coursesManagmentteacher",
@@ -274,8 +285,8 @@ export const router = createBrowserRouter([
         element: <AttachmentPage />,
       },
       {
-        path: "/calendar/student",
-        element: <Calendar />,
+        path: "/EventsStudents/student",
+        element: <EventsStudents />,
       },
       {
         path: "/affichQuiz/student",
@@ -309,7 +320,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/bar/student",
-        element: <BarChart />,
+        element: <BarChartPage />,
       },
     ],
   },

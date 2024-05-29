@@ -27,9 +27,9 @@ const Contacts = () => {
   };
 
   const columns = [
-    { field: "userId", headerName: "userId", width: 100 },
-    { field: "courseId", headerName: "Course ID", width: 150 },
-    { field: "review", headerName: "Review", width: 300 },
+    { field: "userId", headerName: "userId", width: 400 },
+    { field: "courseId", headerName: "Course ID", width: 500 },
+    { field: "review", headerName: "Review", width: 500 },
   ];
 
   return (
