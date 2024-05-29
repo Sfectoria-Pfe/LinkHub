@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card, CardContent, Typography, Grid, CardMedia } from "@mui/material";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import { FaRegEye } from "react-icons/fa";
 
 const CategoriesCards = () => {
   const [categories, setCategories] = useState([]);
@@ -52,7 +53,7 @@ const CategoriesCards = () => {
   return (
     <div>
       <Typography variant="h4" gutterBottom>
-        All Categories
+        Tous les categories
       </Typography>
       <Grid container spacing={3}>
         {categories.map((category) => (
@@ -71,17 +72,16 @@ const CategoriesCards = () => {
                   {category.name}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Total Courses:{" "}
+                  Tous les cours:{" "}
                   {category.courses ? category.courses.length : 0}
                 </Typography>
-                <button
+
+                <FaRegEye
                   onClick={() => {
                     joinCategory(category._id);
                     setSelectedCategory(category._id); // Set the selected category
                   }}
-                >
-                  Join
-                </button>
+                />
               </CardContent>
             </Card>
           </Grid>

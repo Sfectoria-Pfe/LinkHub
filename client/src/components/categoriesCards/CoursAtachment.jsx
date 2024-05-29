@@ -31,7 +31,7 @@ const CoursAtachment = () => {
   return (
     <div>
       <Typography variant="h4" gutterBottom>
-        Courses in Category
+        Tous les cours
       </Typography>
       <Grid container spacing={3}>
         {courses.map((course) => (
@@ -46,7 +46,7 @@ const CoursAtachment = () => {
                   variant="contained"
                   onClick={() => handleButtonClick(course._id)}
                 >
-                  Go
+                  acceder
                 </Button>
               </CardContent>
             </Card>

@@ -71,14 +71,6 @@ function PopularCourses() {
         <Grid container spacing={4} justifyContent="center">
           {categories.map((category) => (
             <Grid item lg={4} md={6} key={category._id}>
-<<<<<<< HEAD
-              <Card
-                className="wow fadeInUp"
-                data-wow-delay="0.1s"
-                style={{ height: "100%", display: "flex", flexDirection: "column" }}
-              >
-                <CardContent style={{ padding: 0, flexGrow: 1 }}>
-=======
               <div
                 style={{
                   display: "flex",
@@ -91,20 +83,13 @@ function PopularCourses() {
                   data-wow-delay="0.1s"
                   style={{ flexGrow: 1 }}
                 >
->>>>>>> 75cc29cca5f2c5b94e2db8b7b08a54023a549b37
                   <img
                     className="img-fluid"
                     src={`http://localhost:3000/api/categories/getImage/${category._id}`}
                     alt=""
-<<<<<<< HEAD
-                    style={{ width: "100%", objectFit: "cover", height: "200px" }}
-                  />
-                  <div className="p-3">
-=======
                     style={{ height: "200px", objectFit: "cover" }}
                   />
                   <CardContent>
->>>>>>> 75cc29cca5f2c5b94e2db8b7b08a54023a549b37
                     <Typography variant="h5" component="h2">
                       {category.name}
                     </Typography>
@@ -115,39 +100,6 @@ function PopularCourses() {
                     >
                       {category.description}
                     </Typography>
-<<<<<<< HEAD
-                    <div className="d-flex border-top">
-                      <Typography className="py-2 text-center flex-fill border-end">
-                        <FaClock className="text-primary me-2" />
-                        {calculatePeriod(
-                          category.dateDebut,
-                          category.dateFin
-                        )}
-                      </Typography>
-                      <Typography className="py-2 text-center flex-fill">
-                        <FaUser className="text-primary me-2" />
-                        {category.users.length} Students
-                      </Typography>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardActions
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  <Button
-                    href="#"
-                    variant="contained"
-                    color="primary"
-                    onClick={() => joinCategory(category._id)}
-                  >
-                    Inscrivez-vous
-                  </Button>
-                  <Button href="#" variant="contained" color="primary">
-                    Lire plus
-                  </Button>
-                </CardActions>
-              </Card>
-=======
                   </CardContent>
                   <CardActions>
                     <Button
@@ -174,7 +126,6 @@ function PopularCourses() {
                   </div>
                 </Card>
               </div>
->>>>>>> 75cc29cca5f2c5b94e2db8b7b08a54023a549b37
             </Grid>
           ))}
         </Grid>
