@@ -80,6 +80,13 @@ const AttachmentPage = () => {
     });
   };
 
+  const downloadPdf = (file) => {
+    const link = document.createElement("a");
+    link.href = `http://localhost:3000/api/courses/get-files/${file}`;
+    link.download = file;
+    link.click();
+  };
+
   const submitReview = async () => {
     try {
       const token = localStorage.getItem("token"); // Retrieve the JWT token from local storage
