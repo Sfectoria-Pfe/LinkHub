@@ -190,11 +190,12 @@ const HeroSection = () => {
 
       <MainContent id="home">
         <Lb id="leftBlock">
-        
-          <Title>Transformer votre carriére avec nous </Title>
-          <SubText style={{color :"white"}}>
-Chez Sfectoria           </SubText>
-  
+
+          <Title>
+            sculptez votre chemin numérique </Title>
+          <SubText style={{ color: "white" }}>
+            Chez Sfectoria           </SubText>
+
         </Lb>
 
         <MobileSvg
