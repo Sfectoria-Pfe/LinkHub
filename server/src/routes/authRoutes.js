@@ -4,6 +4,10 @@ const {
   login,
   authentificateToken,
   verifyUser,
+  activateUser,
+  deactivateUser,
+  getNotifications,
+  getNewUsers,
 } = require("../controllers/authConstroller");
 
 const authRouter = express.Router();
@@ -137,7 +141,10 @@ authRouter.post("/signup", signup);
 authRouter.post("/login", login);
 authRouter.get("/me", authentificateToken);
 authRouter.post("/verif/:activationCode", verifyUser);
-
+authRouter.put("/:userId/activate", activateUser);
 // authRouter.post("/verifyuser/:activationCode", verifyUser);
+// routes.js
+
+  authRouter.put('/:userId/deactivate', deactivateUser);
 
 module.exports = authRouter;

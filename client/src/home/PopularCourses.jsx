@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Button, Container, Row, Col, Card } from "react-bootstrap";
-import { FaStar, FaUserTie, FaClock, FaUser } from "react-icons/fa";
+import {
+  Button,
+  Card,
+  CardHeader,
+  CardContent,
+  CardActions,
+  Typography,
+  Container,
+  Grid,
+} from "@mui/material";
+import { FaClock, FaUser } from "react-icons/fa";
 
 function PopularCourses() {
   const [categories, setCategories] = useState([]);
@@ -54,63 +63,71 @@ function PopularCourses() {
     <Container fluid className="py-5">
       <Container>
         <div className="text-center wow fadeInUp" data-wow-delay="0.1s">
-          <h3 className="section-title bg-white text-center text-primary px-3">
+          <h3 className="px-3 text-center">
             Cours
           </h3>
           <h1 className="mb-5">Cours Populaires</h1>
         </div>
-        <Row className="g-4 justify-content-center">
+        <Grid container spacing={4} justifyContent="center">
           {categories.map((category) => (
-            <Col
-              lg={4}
-              md={6}
-              className="wow fadeInUp"
-              data-wow-delay="0.1s"
-              key={category._id}
-            >
-              <div className="course-item bg-light">
-                <div className="position-relative overflow-hidden">
+            <Grid item lg={4} md={6} key={category._id}>
+              <Card
+                className="wow fadeInUp"
+                data-wow-delay="0.1s"
+                style={{ height: "100%", display: "flex", flexDirection: "column" }}
+              >
+                <CardContent style={{ padding: 0, flexGrow: 1 }}>
                   <img
                     className="img-fluid"
                     src={`http://localhost:3000/api/categories/getImage/${category._id}`}
                     alt=""
+                    style={{ width: "100%", objectFit: "cover", height: "200px" }}
                   />
-                  <div className="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
-                    <Button
-                      href="#"
-                      className="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
-                      style={{ borderRadius: "30px 0 0 30px" }}
+                  <div className="p-3">
+                    <Typography variant="h5" component="h2">
+                      {category.name}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
                     >
-                      Lire plus
-                    </Button>
-                    <Button
-                      href="#"
-                      className="flex-shrink-0 btn btn-sm btn-primary px-3"
-                      style={{ borderRadius: "0 30px 30px 0" }}
-                      onClick={() => joinCategory(category._id)}
-                    >
-                      Inscrivez-vous
-                    </Button>
+                      {category.description}
+                    </Typography>
+                    <div className="d-flex border-top">
+                      <Typography className="py-2 text-center flex-fill border-end">
+                        <FaClock className="text-primary me-2" />
+                        {calculatePeriod(
+                          category.dateDebut,
+                          category.dateFin
+                        )}
+                      </Typography>
+                      <Typography className="py-2 text-center flex-fill">
+                        <FaUser className="text-primary me-2" />
+                        {category.users.length} Students
+                      </Typography>
+                    </div>
                   </div>
-                </div>
-                <div className="text-center p-4 pb-0">
-                  <h5 className="mb-2">{category.name}</h5>
-                  <p className="mb-2">{category.description}</p>
-                </div>
-                <div className="d-flex border-top">
-                  <small className="flex-fill text-center border-end py-2">
-                    <i className="fa fa-clock text-primary me-2"></i>
-                    {calculatePeriod(category.dateDebut, category.dateFin)}
-                  </small>
-                  <small className="flex-fill text-center py-2">
-                    <i className="fa fa-user text-primary me-2"></i>
-                    {category.users.length} Students
-                  </small>
-                </div>
-              </div>
-            </Col>
+                </CardContent>
+                <CardActions
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Button
+                    href="#"
+                    variant="contained"
+                    color="primary"
+                    onClick={() => joinCategory(category._id)}
+                  >
+                    Inscrivez-vous
+                  </Button>
+                  <Button href="#" variant="contained" color="primary">
+                    Lire plus
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
           ))}
-        </Row>
+        </Grid>
       </Container>
     </Container>
   );
