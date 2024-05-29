@@ -57,11 +57,16 @@ exports.signup = async (req, res, next) => {
         role: newUser.role,
         activationCode: newUser.activationCode,
       },
+
     });
+        sendNotification("success", "New user registered!");
+
   } catch (err) {
     next(err);
   }
 };
+
+
 
 // verify user
 exports.verifyUser = async (req, res, next) => {
@@ -71,7 +76,7 @@ exports.verifyUser = async (req, res, next) => {
         message: "ce code d'activation est faux",
       });
     }
-    user.isActivee = true;
+    user.isActivee = false;
     user.save().then(() => {
       res.send({
         message: "votre compte est activé",
@@ -96,10 +101,7 @@ exports.login = async (req, res, next) => {
     }
 
     if (!user.isActivee) {
-      return res.status(401).json({
-        accessToken: null,
-        message: "Please verify your email for activation",
-      });
+      return next(new createError("Account not activated", 403));
     }
 
     // Generate JWT token
@@ -131,7 +133,6 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
-
 // get me using token
 exports.authentificateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -161,6 +162,50 @@ exports.authentificateToken = (req, res, next) => {
     });
   });
 };
+
+exports.activateUser = async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    // Recherchez l'utilisateur par son ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // Mettez à jour l'état d'activation de l'utilisateur
+    user.isActivee = true;
+    await user.save();
+    // Réponse réussie
+    res.status(200).json({ message: "User activated successfully" });
+  } catch (err) {
+    // Gestion des erreurs
+    console.error("Error activating user:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+// authController.js
+
+// deactivate a user
+exports.deactivateUser = async (req, res, next) => {
+  try {
+    const userId = req.params.userId;
+    // Find the user by their ID
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // Update the user's activation status
+    user.isActivee = false;
+    await user.save();
+    // Successful response
+    res.status(200).json({ message: "User deactivated successfully" });
+  } catch (err) {
+    // Error handling
+    console.error("Error deactivating user:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
 // logout a user
 exports.logout = (req, res) => {

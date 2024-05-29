@@ -4,6 +4,10 @@ const {
   login,
   authentificateToken,
   verifyUser,
+  activateUser,
+  deactivateUser,
+  getNotifications,
+  getNewUsers,
   logout,
 } = require("../controllers/authConstroller");
 
@@ -157,7 +161,10 @@ authRouter.post("/login", login);
 authRouter.post("/logout", logout);
 authRouter.get("/me", authentificateToken);
 authRouter.post("/verif/:activationCode", verifyUser);
-
+authRouter.put("/:userId/activate", activateUser);
 // authRouter.post("/verifyuser/:activationCode", verifyUser);
+// routes.js
+
+  authRouter.put('/:userId/deactivate', deactivateUser);
 
 module.exports = authRouter;
