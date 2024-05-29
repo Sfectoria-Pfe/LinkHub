@@ -3,29 +3,32 @@ import { Container, Carousel } from "react-bootstrap";
 import testimonial1 from "../components/Assets/imgs/testimonial-1.jpg";
 import testimonial2 from "../components/Assets/imgs/ghada.jpeg";
 import testimonial3 from "../components/Assets/imgs/saif.jpg";
+
 function Rate() {
   return (
-    <Container fluid className="py-5 wow fadeInUp" data-wow-delay="0.1s">
+    <Container fluid className="py-5 wow fadeInUp" data-wow-delay="0.1s"
+
+    id="paragraphe">
       <Container>
         <div className="text-center">
-          <h6 className="section-title bg-white text-center text-primary px-3">
+          <h6 className="px-3 text-center">
             Testimonial
           </h6>
           <h1 className="mb-5">Nos étudiants témoignent!</h1>
         </div>
         <Carousel className="testimonial-carousel position-relative">
           <Carousel.Item>
-            <div className="testimonial-item text-center">
+            <div className="text-center testimonial-item">
               <img
-                className="border rounded-circle p-2 mx-auto mb-3"
+                className="p-2 mx-auto mb-3 border rounded-circle"
                 src={testimonial1}
                 style={{ width: "80px", height: "80px" }}
                 alt="Client 1"
               />
               <h5 className="mb-0">Bassma melki</h5>
               <p>Profession</p>
-              <div className="testimonial-text bg-light text-center p-4">
-                <p className="mb-0">
+              <div className="p-4 text-center testimonial-text bg-light">
+                <p className="mb-0" >
                   En tant que professionnel dans le domaine du marketing
                   digital, l'utilisation de LinkHub a considérablement enrichi
                   ma compréhension et mes compétences. Les cours pertinents, les
@@ -39,16 +42,16 @@ function Rate() {
             </div>
           </Carousel.Item>
           <Carousel.Item>
-            <div className="testimonial-item text-center">
+            <div className="text-center testimonial-item">
               <img
-                className="border rounded-circle p-2 mx-auto mb-3"
+                className="p-2 mx-auto mb-3 border rounded-circle"
                 src={testimonial2}
                 style={{ width: "80px", height: "80px" }}
                 alt="Client 1"
               />
               <h5 className="mb-0">Ghada Aydi</h5>
               <p>Etudiant</p>
-              <div className="testimonial-text bg-light text-center p-4">
+              <div className="p-4 text-center testimonial-text bg-light">
                 <p className="mb-0">
                   En tant qu'étudiante, LinkHub a été une bouée de sauvetage
                   pour mes études. Les cours interactifs, les ressources
@@ -64,16 +67,16 @@ function Rate() {
             </div>
           </Carousel.Item>
           <Carousel.Item>
-            <div className="testimonial-item text-center">
+            <div className="text-center testimonial-item">
               <img
-                className="border rounded-circle p-2 mx-auto mb-3"
+                className="p-2 mx-auto mb-3 border rounded-circle"
                 src={testimonial3}
                 style={{ width: "80px", height: "80px" }}
                 alt="Client 1"
               />
               <h5 className="mb-0">Saif Mhamdi</h5>
               <p>développeur</p>
-              <div className="testimonial-text bg-light text-center p-4">
+              <div className="p-4 text-center testimonial-text bg-light">
                 <p className="mb-0">
                   LinkHub, c'est bien plus qu'une plateforme d'apprentissage en
                   ligne. Avec une expérience immersive et des cours de qualité,

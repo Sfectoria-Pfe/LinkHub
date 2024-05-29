@@ -6,7 +6,7 @@ import Rate from "./Rate";
 function Home() {
   return (
     <div>
-      {/* <Banner /> */}
+
       <Proud />
       <CoursesCategories />
       <PopularCourses />
