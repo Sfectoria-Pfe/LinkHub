@@ -7,15 +7,16 @@ import ChatBubble from "./ChatBubble";
 import MessageInput from "./MessageInput";
 import MessagesPaneHeader from "./MessagesPaneHeader";
 import { ChatProps, MessageProps } from "./types";
+import { chats } from "./data";
 
-const MessagesPane = (props) => {
-  const { chat } = props;
-  const [chatMessages, setChatMessages] = useState(chat.messages);
+const MessagesPane = () => {
+
+  const [chatMessages, setChatMessages] = useState(chats[0]?.messages);
   const [textAreaValue, setTextAreaValue] = useState("");
 
-  useEffect(() => {
-    setChatMessages(chat.messages);
-  }, [chat.messages]);
+  // useEffect(() => {
+  //   setChatMessages(chat.messages);
+  // }, [chat.messages]);
 
   return (
     <Sheet
@@ -26,7 +27,7 @@ const MessagesPane = (props) => {
         backgroundColor: "background.level1",
       }}
     >
-      <MessagesPaneHeader sender={chat.sender} />
+      {/* <MessagesPaneHeader sender={chat.sender} /> */}
       <Box
         sx={{
           display: "flex",

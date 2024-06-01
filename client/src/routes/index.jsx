@@ -56,7 +56,6 @@ export const router = createBrowserRouter([
   { path: "/confirm/:activationCode", element: <ActivationPage /> },
   { path: "/mainUsers", element: <MainUsers /> },
   { path: "/teachDrawer", element: <TeachDrawer /> },
-  { path: "/mainMessages", element: <MainMessages /> },
 
   {
     element: <MiniDrawer />,
@@ -266,6 +265,8 @@ export const router = createBrowserRouter([
         path: "/dashboard/student",
         element: <DashboardStudent />,
       },
+      { path: "/mainMessages", element: <MainMessages /> },
+
 
       {
         path: "/gereProfile/student",
