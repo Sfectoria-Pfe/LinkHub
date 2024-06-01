@@ -29,6 +29,7 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
@@ -125,6 +126,11 @@ const Array3 = [
     icon: <MapOutlinedIcon />,
     path: "/geography/student",
   },
+  // {
+  //   text: "Chat",
+  //   icon: <MarkUnreadChatAltIcon />,
+  //   path: "/mainMessages",
+  // },
 ];
 
 const Sidebar = ({ open, handleDrawerClose }) => {
@@ -176,7 +182,7 @@ const Sidebar = ({ open, handleDrawerClose }) => {
   };
 
   return (
-    <StyledDrawer variant="permanent" open={open}>
+    <StyledDrawer variant="permanent" open={open} >
       <DrawerHeader>
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "rtl" ? (

@@ -186,7 +186,7 @@ const Sidebar = ({ open, handleDrawerClose }) => {
         sx={{
           fontSize: open ? 15 : 0,
           transition: "0.25s",
-          color: theme.palette.info.main,
+          color: theme?.palette?.info.main,
         }}
       >
         {role}

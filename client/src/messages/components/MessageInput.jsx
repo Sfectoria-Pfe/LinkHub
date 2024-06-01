@@ -23,7 +23,7 @@ const MessageInput = (props) => {
   };
 
   return (
-    <Box sx={{ px: 2, pb: 3 }}>
+    <Box sx={{ px: 2, pb: 5 }}>
       <FormControl>
         <Textarea
           placeholder="Type something here…"
@@ -74,7 +74,7 @@ const MessageInput = (props) => {
             </Stack>
           }
           onKeyDown={(event) => {
-            if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
+            if (event.key === "Enter" &&  !event.shiftKey) {
               handleClick();
             }
           }}
