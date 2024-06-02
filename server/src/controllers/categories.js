@@ -250,20 +250,16 @@ exports.joinCategory = async (req, res, next) => {
   }
 };
 
+// /path/to/your/controllers/categoryController.js
+
 exports.getJoinedCategories = async (req, res, next) => {
-  const token = req.headers["authorization"].split(" ")[1];
-  if (!token) return next(createError(401, "Unauthorized"));
-
   try {
-    const decoded = jwt.verify(token, "secretkey123");
-    const userId = decoded._id;
-
-    const user = await User.findById(userId).populate("categories");
-    if (!user) return next(createError(404, "User not found"));
-
+    const user = req.user;
+    await user.populate('categories');
     res.json(user.categories);
   } catch (error) {
     console.error("Error getting joined categories:", error);
-    return next(createError(401, "Unauthorized"));
+    return next(createError(500, "Internal Server Error"));
   }
 };
+

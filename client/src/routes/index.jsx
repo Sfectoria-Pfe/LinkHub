@@ -39,7 +39,7 @@ import PlayQuizEntry from "../components/TeacherDashboard/Pages/addQuiz/PlayQuiz
 import CoursAtachment from "../components/categoriesCards/CoursAtachment";
 import AttachmentPage from "../components/categoriesCards/AttachmentPage";
 import MainMessages from "../messages/components/MainMessages";
-import MainProfile from "../ModifierProfile/components/MainProfile";
+// import MainProfile from "../ModifierProfile/components/MainProfile";
 import UsersCards from "../components/AdminDashboard/profileCards/UsersCards";
 import TableUsers from "../components/AdminDashboard/Users/TableUsers";
 import BarChartPage from "../page/barChart/BarChartPage ";
@@ -272,7 +272,7 @@ export const router = createBrowserRouter([
         path: "/gereProfile/student",
         element: <ProfilStudent />,
       },
-      { path: "/mainProfile/student", element: <MainProfile /> },
+      // { path: "/mainProfile/student", element: <MainProfile /> },
       {
         path: "/AllCategories/student",
         element: <CategoriesCards />,
