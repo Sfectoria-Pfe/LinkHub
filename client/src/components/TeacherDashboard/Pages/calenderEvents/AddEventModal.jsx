@@ -24,7 +24,9 @@ function AddEventModal({ isOpen, onClose, onEventAdded }) {
   return (
     <Modal show={isOpen} onHide={onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Event</Modal.Title>
+        <Modal.Title>Ajouter un événement
+
+</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={onSubmit}>
@@ -63,7 +65,7 @@ function AddEventModal({ isOpen, onClose, onEventAdded }) {
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onClose}>
-          Close
+          fermer
         </Button>
         <Button variant="primary" onClick={onSubmit}>
           Save changes

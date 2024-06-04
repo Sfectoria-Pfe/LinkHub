@@ -98,11 +98,11 @@ const Array1 = [
 ];
 
 const Array2 = [
-  {
-    text: "Profile Form",
-    icon: <PersonOutlinedIcon />,
-    path: "/mainProfile/student",
-  },
+  // {
+  //   text: "Profile Form",
+  //   icon: <PersonOutlinedIcon />,
+  //   path: "/mainProfile/student",
+  // },
   {
     text: "Calendar",
     icon: <CalendarTodayOutlinedIcon />,
