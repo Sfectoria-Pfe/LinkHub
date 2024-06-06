@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 import { PiStudentBold } from "react-icons/pi";
 import { FaChalkboardTeacher } from "react-icons/fa";
 import { GrUserAdmin } from "react-icons/gr";
+import AddIcon from '@mui/icons-material/Add';
 
 const Team = () => {
   const theme = useTheme();

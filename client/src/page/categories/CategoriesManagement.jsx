@@ -1,3 +1,5 @@
+// File path: /src/pages/CategoriesManagement.jsx
+
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { DataGrid } from "@mui/x-data-grid";
@@ -8,6 +10,7 @@ import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { BiShow } from "react-icons/bi";
+import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 
 const CategoriesManagement = () => {
   const [categories, setCategories] = useState([]);
@@ -127,12 +130,22 @@ const CategoriesManagement = () => {
     formSection.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleAddClick = () => {
+    const formSection = document.getElementById("form-section");
+    formSection.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <Box>
       <Header
         title={"Gestion des catégories"}
         subTitle={"Gérez vos catégories"}
       />
+      <div className="d-flex justify-content-end mb-3">
+        <button className="btn btn-primary" onClick={handleAddClick}>
+          Ajouter
+        </button>
+      </div>
 
       <Box sx={{ height: 600, mx: "auto" }}>
         <DataGrid

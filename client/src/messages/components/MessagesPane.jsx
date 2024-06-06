@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Box from "@mui/joy/Box";
 import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
@@ -7,16 +7,52 @@ import ChatBubble from "./ChatBubble";
 import MessageInput from "./MessageInput";
 import MessagesPaneHeader from "./MessagesPaneHeader";
 import { ChatProps, MessageProps } from "./types";
-import { chats } from "./data";
+import axios from "axios";
+import { io } from "socket.io-client";
 
-const MessagesPane = () => {
 
-  const [chatMessages, setChatMessages] = useState(chats[0]?.messages);
+const MessagesPane = ({ messages, userId, update, setUpdate,
+  categoryId }) => {
+  const [chatMessages, setChatMessages] = useState([]);
   const [textAreaValue, setTextAreaValue] = useState("");
+  const socket = useRef();
 
-  // useEffect(() => {
-  //   setChatMessages(chat.messages);
-  // }, [chat.messages]);
+  useEffect(() => {
+    socket.current = io("ws://localhost:8800", { transports: ['websocket'] });
+
+    socket.current.emit("new-user-add", userId);
+
+   
+
+    socket.current.on("receive-message", (data) => {
+      console.log(data,"received ")
+      setChatMessages(data)
+      // setMessages(data)
+      // setNewMessages(data)
+      // setReceivedMessage(data)
+    });
+
+    return () => {
+      socket.current.disconnect();
+    };
+  }, [userId]);
+
+  const addMessage = async (body) => {
+    try {
+      const rep = await axios.post(
+        "http://localhost:3000/api/messages/crateMessage",
+        body
+      );
+      setUpdate(!update);
+      console.log(rep.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    setChatMessages(messages);
+  }, [messages.length]);
 
   return (
     <Sheet
@@ -40,8 +76,8 @@ const MessagesPane = () => {
         }}
       >
         <Stack spacing={2} justifyContent="flex-end">
-          {chatMessages.map((message, index) => {
-            const isYou = message.sender === "You";
+          {chatMessages?.map((message, index) => {
+            const isYou = message.senderId._id === userId;
             return (
               <Stack
                 key={index}
@@ -51,12 +87,13 @@ const MessagesPane = () => {
               >
                 {!isYou && (
                   <AvatarWithStatus
-                    online={message.sender.online}
-                    src={message.sender.avatar}
+                    online={true}
+                    src={message?.senderId?.avatar}
                   />
                 )}
                 <ChatBubble
                   variant={isYou ? "sent" : "received"}
+                  userId={userId}
                   {...message}
                 />
               </Stack>
@@ -68,17 +105,22 @@ const MessagesPane = () => {
         textAreaValue={textAreaValue}
         setTextAreaValue={setTextAreaValue}
         onSubmit={() => {
-          const newId = chatMessages.length + 1;
-          const newIdString = newId.toString();
-          setChatMessages([
-            ...chatMessages,
-            {
-              id: newIdString,
-              sender: "You",
-              content: textAreaValue,
-              timestamp: "Just now",
-            },
-          ]);
+          // setChatMessages([
+          //   ...chatMessages,
+          //   {
+          //     senderId: userId,
+          //     text: textAreaValue,
+          //     createdAt : new Date(),
+          //   },
+          // ]);
+          addMessage({
+            senderId: userId,
+            text: textAreaValue,
+            createdAt: new Date(),
+
+            categoryId: categoryId,
+          });
+          socket.current.emit("send-message", chatMessages);
         }}
       />
     </Sheet>

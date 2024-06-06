@@ -33,12 +33,12 @@ function AddEventModal({ isOpen, onClose, onEventAdded }) {
           <input
             type="text"
             className="mb-3 form-control"
-            placeholder="Title"
+            placeholder="Titre de l'événement"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <div>
-            <label>Event start</label>
+            <label>date de début</label>
             <Datetime
               className="mb-3 form-control"
               value={start}
@@ -46,7 +46,7 @@ function AddEventModal({ isOpen, onClose, onEventAdded }) {
             />
           </div>
           <div>
-            <label>Event end</label>
+            <label>date de fin</label>
             <Datetime
               className="mb-3 form-control"
               value={end}
@@ -68,7 +68,7 @@ function AddEventModal({ isOpen, onClose, onEventAdded }) {
           fermer
         </Button>
         <Button variant="primary" onClick={onSubmit}>
-          Save changes
+        enregistrer
         </Button>
       </Modal.Footer>
     </Modal>

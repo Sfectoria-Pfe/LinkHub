@@ -15,13 +15,13 @@ const ChatsPane = (props) => {
   const { chats, setSelectedChat, selectedChatId } = props;
   return (
     <Sheet
-      sx={{
-        borderRight: "1px solid",
-        borderColor: "divider",
-        height: "calc(100dvh - var(--Header-height))",
-        overflowY: "auto",
-      }}
-    >
+    sx={{
+      borderRight: "1px solid",
+      borderColor: "divider",
+      height: "calc(100dvh - var(--Header-height))",
+      overflowY: "auto",
+    }}
+  >
       <Stack
         direction="row"
         spacing={1}

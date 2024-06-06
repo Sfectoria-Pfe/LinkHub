@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaCheck, FaTimes } from 'react-icons/fa';
-import styled from 'styled-components';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@mui/material';
+import { DataGrid } from '@mui/x-data-grid';
+import { CheckCircle, Cancel } from '@mui/icons-material';
 import Swal from 'sweetalert2';
+import styled from 'styled-components';
 
 const Container = styled.div`
   margin: 20px;
@@ -15,29 +15,6 @@ const Title = styled.h1`
   color: #333;
 `;
 
-const Th = styled(TableCell)`
-  background-color: red;
-  color: #ffffff;
-  text-align: left;
-  padding: 12px 15px;
-`;
-
-const Td = styled(TableCell)`
-  padding: 12px 15px;
-  border-bottom: 1px solid #dddddd;
-  text-align: left;
-`;
-
-const Tr = styled(TableRow)`
-  &:nth-of-type(even) {
-    background-color: #f3f3f3;
-  }
-
-  &:hover {
-    background-color: #f1f1f1;
-  }
-`;
-
 const Error = styled.div`
   color: red;
   text-align: center;
@@ -47,6 +24,29 @@ const Error = styled.div`
 const Geography = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState(null);
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/users/all')
+      .then(response => {
+        if (Array.isArray(response.data)) {
+          const updatedUsers = response.data.filter(user => user.role !== 'ADMIN').map(user => {
+            if (user.role === 'FORMATEUR') {
+              return { ...user, role: 'enseignant' };
+            } else if (user.role === 'STUDENT') {
+              return { ...user, role: 'étudiant' };
+            }
+            return user;
+          });
+          setUsers(updatedUsers);
+        } else {
+          setError('Format de réponse inattendu');
+        }
+      })
+      .catch(error => {
+        console.error('Une erreur s\'est produite lors de la récupération des utilisateurs !', error);
+        setError('Une erreur s\'est produite lors de la récupération des utilisateurs');
+      });
+  }, []);
+
   const handleDeactivate = async (id) => {
     const result = await Swal.fire({
       title: 'Êtes-vous sûr(e) ?',
@@ -57,12 +57,12 @@ const Geography = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Oui, désactiver !'
     });
-  
+
     if (result.isConfirmed) {
       deactivateUser(id);
     }
   };
-  
+
   const handleActivate = async (id) => {
     const result = await Swal.fire({
       title: 'Êtes-vous sûr(e) ?',
@@ -73,28 +73,11 @@ const Geography = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Oui, activer !'
     });
-  
+
     if (result.isConfirmed) {
       activateUser(id);
     }
   };
-  
-
-  useEffect(() => {
-    axios.get('http://localhost:3000/api/users/all')
-      .then(response => {
-        console.log('API response:', response);
-        if (Array.isArray(response.data)) {
-          setUsers(response.data);
-        } else {
-          setError('Format de réponse inattendu');
-        }
-      })
-      .catch(error => {
-        console.error('Une erreur s\'est produite lors de la récupération des utilisateurs !', error);
-        setError('Une erreur s\'est produite lors de la récupération des utilisateurs');
-      });
-  }, []);
 
   const activateUser = (userId) => {
     axios.put(`http://localhost:3000/api/auth/${userId}/activate`)
@@ -152,49 +135,50 @@ const Geography = () => {
       });
   };
 
+  const columns = [
+    { field: 'firstName', headerName: 'Nom', flex: 1 },
+    { field: 'lastName', headerName: 'Prénom', flex: 1 },
+    { field: 'email', headerName: 'Email', flex: 1 },
+    { field: 'role', headerName: 'Rôle', flex: 1 },
+    {
+      field: 'isActivee',
+      headerName: 'Statut',
+      flex: 1,
+      renderCell: (params) => (
+        params.value ? <CheckCircle style={{ color: 'green' }} /> : <Cancel style={{ color: 'red' }} />
+      )
+    },
+    {
+      field: 'action',
+      headerName: 'Action',
+      flex: 1,
+      renderCell: (params) => (
+        params.row.isActivee ? (
+          <Cancel onClick={() => handleDeactivate(params.row._id)} style={{ color: 'red', cursor: 'pointer' }} />
+        ) : (
+          <CheckCircle onClick={() => handleActivate(params.row._id)} style={{ color: 'green', cursor: 'pointer' }} />
+        )
+      )
+    }
+  ];
+
   return (
     <Container>
       <Title>Liste des utilisateurs</Title>
       {error ? (
         <Error>{error}</Error>
       ) : (
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <Th>Nom</Th>
-                <Th>Email</Th>
-                <Th>Statut</Th>
-                <Th>Rôle</Th>
-                <Th>Action</Th>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {users.map(user => (
-                <Tr key={user._id}>
-                  <Td>{user.firstName} {user.lastName}</Td>
-                  <Td>{user.email}</Td>
-                  <Td>{user.role}</Td>
-                  <Td>
-                    {user.isActivee ? (
-                      <FaCheck color="green" />
-                    ) : (
-                      <FaTimes color="red" />
-                    )}
-                  </Td>
-                  <Td>
-                    {user.isActivee ? (
-                      <FaTimes onClick={() => handleDeactivate(user._id)} color="red" />
-                    ) : (
-                      <FaCheck onClick={() => handleActivate(user._id)} color="green" />
-
-                    )}
-                  </Td>
-                </Tr>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <div style={{ height: 600, width: '100%' }}>
+          <DataGrid
+            rows={users}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[5, 10, 20]}
+            checkboxSelection={false}
+            disableSelectionOnClick
+            getRowId={(row) => row._id}
+          />
+        </div>
       )}
     </Container>
   );

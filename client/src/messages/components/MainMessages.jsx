@@ -5,13 +5,13 @@ import Box from "@mui/joy/Box";
 
 import MyMessages from "./MyMessages";
 
-function MainMessages() {
+function MainMessages({categoryId}) {
   return (
     <CssVarsProvider disableTransitionOnChange>
       <CssBaseline />
       <Box sx={{ display: "flex", minHeight: "100dvh" }}>
         <Box component="main" className="MainContent" sx={{ flex: 1 }}>
-          <MyMessages />
+          <MyMessages categoryId={categoryId}/>
         </Box>
       </Box>
     </CssVarsProvider>

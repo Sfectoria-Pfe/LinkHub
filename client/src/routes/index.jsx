@@ -39,7 +39,7 @@ import PlayQuizEntry from "../components/TeacherDashboard/Pages/addQuiz/PlayQuiz
 import CoursAtachment from "../components/categoriesCards/CoursAtachment";
 import AttachmentPage from "../components/categoriesCards/AttachmentPage";
 import MainMessages from "../messages/components/MainMessages";
-// import MainProfile from "../ModifierProfile/components/MainProfile";
+import MainProfile from "../ModifierProfile/components/MainProfile";
 import UsersCards from "../components/AdminDashboard/profileCards/UsersCards";
 import TableUsers from "../components/AdminDashboard/Users/TableUsers";
 import BarChartPage from "../page/barChart/BarChartPage ";
@@ -86,10 +86,10 @@ export const router = createBrowserRouter([
         path: "/mainCourses",
         element: <MainCourses />,
       },
-      {
-        path: "/coursesManagment/admin",
-        element: <Courses />,
-      },
+      // {
+      //   path: "/coursesManagment/admin",
+      //   element: <Courses />,
+      // },
       {
         path: "/gereProfile/admin",
         element: <ProfilStudent />,
@@ -137,10 +137,10 @@ export const router = createBrowserRouter([
         path: "/updateCourse/:id",
         element: <UpdateCourse />,
       },
-      {
-        path: "/pieChartComponent",
-        element: <PieChartComponent />,
-      },
+      // {
+      //   path: "/pieChartComponent",
+      //   element: <PieChartComponent />,
+      // },
       {
         path: "/readCourse/:courseId",
         element: <ReadCourse />,
@@ -272,7 +272,7 @@ export const router = createBrowserRouter([
         path: "/gereProfile/student",
         element: <ProfilStudent />,
       },
-      // { path: "/mainProfile/student", element: <MainProfile /> },
+      { path: "/mainProfile/student", element: <MainProfile /> },
       {
         path: "/AllCategories/student",
         element: <CategoriesCards />,

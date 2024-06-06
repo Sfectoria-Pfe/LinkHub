@@ -1,7 +1,8 @@
 import { Box, Paper, Stack, Typography, useTheme } from "@mui/material";
 import Pie from "../pieChart/pie";
 import React from "react";
-import Bar from "../barChart/bar";
+// import Bar from "../barChart/bar";
+import CalanderDashboard from "./CalanderDashboard";
 import Geo from "../geography/geo";
 
 const Row3 = () => {
@@ -15,19 +16,14 @@ const Row3 = () => {
           variant="h6"
           fontWeight="600"
         >
-          Campaign
+          Numbre des catgoresies avec les cours
         </Typography>
 
         <Pie isDashbord={true} />
-        <Typography variant="h6" align="center" sx={{ mt: "15px" }}>
-          $48,352 revenue generated
-        </Typography>
-        <Typography variant="body2" px={0.7} pb={3} align="center">
-          Includes extra misc expenditures and costs
-        </Typography>
+        
       </Paper>
 
-      <Paper sx={{ flexGrow: 1, minWidth: "400px", width: "33%" }}>
+      {/* <Paper sx={{ flexGrow: 1, minWidth: "400px", width: "33%" }}>
         <Typography
           color={theme.palette.secondary.main}
           variant="h6"
@@ -38,11 +34,11 @@ const Row3 = () => {
         </Typography>
 
         <Bar isDashbord={true} />
-      </Paper>
-
-      <Paper sx={{ flexGrow: 1, minWidth: "400px", width: "33%" }}>
-        <Geo isDashbord={true} />
-      </Paper>
+      </Paper> */}
+{/* 
+      <Paper sx={{ flexGrow: 1, minWidth: "400px", width: "20%" }}>
+        <CalanderDashboard isDashbord={true} />
+      </Paper> */}
     </Stack>
   );
 };

@@ -28,7 +28,6 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import MarkUnreadChatAltIcon from '@mui/icons-material/MarkUnreadChatAlt';
 
 const drawerWidth = 240;
@@ -121,11 +120,11 @@ const Array3 = [
     icon: <PieChartOutlineOutlinedIcon />,
     path: "/pie/student",
   },
-  {
-    text: "Geography Chart",
-    icon: <MapOutlinedIcon />,
-    path: "/geography/student",
-  },
+  // {
+  //   text: "Geography Chart",
+  //   icon: <MapOutlinedIcon />,
+  //   path: "/geography/student",
+  // },
   // {
   //   text: "Chat",
   //   icon: <MarkUnreadChatAltIcon />,

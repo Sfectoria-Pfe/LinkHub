@@ -24,7 +24,7 @@ import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 import axios from "axios";
 import LogoutIcon from "@mui/icons-material/Logout";
-
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 const drawerWidth = 240;
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -89,18 +89,18 @@ const Array2 = [
     icon: <ManageAccountsOutlinedIcon />,
     path: "/gereProfile/admin",
   },
-  { text: "Calendar", icon: <CalendarTodayOutlinedIcon />, path: "/calendar" },
+
 ];
 
 const Array3 = [
   { text: "Category", icon: <CategoryOutlinedIcon />, path: "/category" },
-  {
-    text: "Courses",
-    icon: <InventoryOutlinedIcon />,
-    path: "/coursesManagment/admin",
-  },
-  { text: "Pie Chart", icon: <PieChartOutlineOutlinedIcon />, path: "/pie" },
-  { text: "Geography Chart", icon: <MapOutlinedIcon />, path: "/geography" },
+  // {
+  //   text: "Courses",
+  //   icon: <InventoryOutlinedIcon />,
+  //   path: "/coursesManagment/admin",
+  // },
+  // { text: "Pie Chart", icon: <PieChartOutlineOutlinedIcon />, path: "/pie" },
+  { text: "Approver Les inscriptions", icon: <CheckCircleOutlineIcon />, path: "/geography" },
 ];
 
 const Sidebar = ({ open, handleDrawerClose }) => {

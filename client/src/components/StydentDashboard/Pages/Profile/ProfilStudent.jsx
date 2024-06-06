@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { FormControl } from '@mui/base/FormControl';
+
 import {
   Button,
   Snackbar,
@@ -13,6 +15,7 @@ import {
 import Header from "../../navigation/Header";
 import Swal from "sweetalert2";
 import { Edit as EditIcon } from "@mui/icons-material";
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 function ProfilStudent() {
   const [formData, setFormData] = useState({
@@ -43,6 +46,7 @@ function ProfilStudent() {
         firstName: userData.firstName,
         lastName: userData.lastName,
         email: userData.email,
+        // password: userData.password,
         telephone: userData.telephone || "", // handle case if telephone is null
         address: userData.address || "", // handle case if address is null
         avatar: userData.avatar || "", // handle case if avatar is null
@@ -59,9 +63,28 @@ function ProfilStudent() {
   }, [fetchUserData]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    // Regular expression to match only letters
+    const lettersRegex = /^[A-Za-z]+$/;
+    // Regular expression to match only numbers
+    const numbersRegex = /^[0-9]*$/; // Allow empty string
+  
+    // Perform validation for the firstName and lastName fields
+    if ((name === "firstName" || name === "lastName") && !lettersRegex.test(value)) {
+      // If the input contains anything other than letters, do not update the state
+      return;
+    }
+  
+    // Perform validation for the telephone field
+    if (name === "telephone") {
+      if (!numbersRegex.test(value) || value.length > 8) {
+        // If the input contains anything other than numbers or the length is more than 8, do not update the state
+        return;
+      }
+    }
+  
+    setFormData({ ...formData, [name]: value });
   };
-
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
     try {
@@ -70,6 +93,7 @@ function ProfilStudent() {
         firstName,
         lastName,
         email,
+        password,
         telephone,
         address,
         avatar,
@@ -80,6 +104,7 @@ function ProfilStudent() {
         firstName,
         lastName,
         email,
+        password,
         telephone,
         address,
         avatar,
@@ -180,6 +205,14 @@ function ProfilStudent() {
           value={formData.email}
           label="E-mail"
           variant="outlined"
+        />
+           <TextField
+          onChange={handleChange}
+          name="password"
+          value={formData.password}
+          label="Mot de passe"
+          variant="outlined"
+          type="password"
         />
 
         <TextField
